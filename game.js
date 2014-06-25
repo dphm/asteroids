@@ -55,28 +55,26 @@
     this.game = game;
     this.center = { x: game.size.x / 2, y: game.size.y / 2 };
     this.angle = 0;
+    this.angularSpeed = Math.PI / 180;
+    this.maxLinearSpeed = 4;
+    
     this.keyboarder = new Keyboarder();
   };
 
   Ship.prototype = {
     update: function() {
-      var SPEED = {
-        ANGULAR: Math.PI / 180,
-        LINEAR: 4
-      }
-
       if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE)) {
       }
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
-        this.angle -= SPEED.ANGULAR;
+        this.angle -= this.angularSpeed;
       } else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
-        this.angle += SPEED.ANGULAR;
+        this.angle += this.angularSpeed;
       }
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
-        this.center.x += SPEED.LINEAR * Math.sin(this.angle);
-        this.center.y -= SPEED.LINEAR * Math.cos(this.angle);
+        this.center.x += this.maxLinearSpeed * Math.sin(this.angle);
+        this.center.y -= this.maxLinearSpeed * Math.cos(this.angle);
       }
     },
 
