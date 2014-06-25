@@ -62,7 +62,7 @@
     update: function() {
       var SPEED = {
         ANGULAR: Math.PI / 180,
-        LINEAR: 3
+        LINEAR: 4
       }
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE)) {
