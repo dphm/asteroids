@@ -66,7 +66,6 @@
       }
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE)) {
-        console.log("SPACE");
       }
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
@@ -78,7 +77,6 @@
       if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
         this.center.x += SPEED.LINEAR * Math.sin(this.angle);
         this.center.y -= SPEED.LINEAR * Math.cos(this.angle);
-        console.log(this.center);
       }
     },
 
