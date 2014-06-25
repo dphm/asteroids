@@ -6,7 +6,7 @@
     var screen = canvas.getContext('2d');
 
     this.bodies = [];
-    this.bodies.push(new Ship(this));
+    this.addBody(new Ship(this));
 
     var self = this;
     var tick = function() {
@@ -20,16 +20,17 @@
 
   Game.prototype = {
     update: function() {
+      var self = this;
       function wrapScreen(body) {
         if (body.center.x < 0) {
-          body.center.x = body.game.size.x;
-        } else if (body.center.x > body.game.size.x) {
+          body.center.x = self.size.x;
+        } else if (body.center.x > self.size.x) {
           body.center.x = 0;
         }
 
         if (body.center.y < 0) {
-          body.center.y = body.game.size.y;
-        } else if (body.center.y > body.game.size.y) {
+          body.center.y = self.size.y;
+        } else if (body.center.y > self.size.y) {
           body.center.y = 0;
         }        
       }
@@ -47,6 +48,10 @@
       this.bodies.map(function(body) {
         body.draw(screen);
       });
+    },
+
+    addBody: function(body) {
+      this.bodies.push(body);
     }
   };
 
@@ -57,7 +62,6 @@
     this.angle = 0;
     this.angularSpeed = Math.PI / 180;
     this.maxLinearSpeed = 4;
-    
     this.keyboarder = new Keyboarder();
   };
 
