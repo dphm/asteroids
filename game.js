@@ -58,10 +58,19 @@
 
   var Ship = function(game) {
     this.game = game;
+
     this.center = { x: game.size.x / 2, y: game.size.y / 2 };
+    this.vertices = [
+      { x:      this.center.x, y: this.center.y + 10 },
+      { x: this.center.x - 10, y: this.center.y + 15 },
+      { x:      this.center.x, y: this.center.y - 15 },
+      { x: this.center.x + 11, y: this.center.y + 15 }
+    ];
+
     this.angle = 0;
-    this.angularSpeed = Math.PI / 180;
+    this.angularSpeed = 5 * Math.PI / 180;
     this.maxLinearSpeed = 4;
+
     this.keyboarder = new Keyboarder();
   };
 
@@ -71,32 +80,26 @@
       }
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
-        this.angle -= this.angularSpeed;
+        this.angle = -this.angularSpeed % (2 * Math.PI);
+        rotateVertices(this.vertices, this.center, this.angle);
       } else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
-        this.angle += this.angularSpeed;
+        this.angle = this.angularSpeed % (2 * Math.PI);
+        rotateVertices(this.vertices, this.center, this.angle);
       }
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
-        this.center.x += this.maxLinearSpeed * Math.sin(this.angle);
-        this.center.y -= this.maxLinearSpeed * Math.cos(this.angle);
       }
     },
 
     draw: function(screen) {
-      screen.save();
-      screen.translate(this.center.x, this.center.y);
-      screen.rotate(this.angle);
-
       screen.strokeStyle = '#eee';
       screen.beginPath();
-      screen.moveTo(0, 10);
-      screen.lineTo(-10, 15);
-      screen.lineTo(0, -15);
-      screen.lineTo(11, 15);
+      screen.moveTo(this.vertices[0].x, this.vertices[0].y);
+      screen.lineTo(this.vertices[1].x, this.vertices[1].y);
+      screen.lineTo(this.vertices[2].x, this.vertices[2].y);
+      screen.lineTo(this.vertices[3].x, this.vertices[3].y);
       screen.closePath();
       screen.stroke();
-
-      screen.restore();
     }
   };
 
@@ -123,6 +126,19 @@
     this.isDown = function(keyCode) {
       return keyState[keyCode];
     };
+  };
+
+
+  function rotateVertex(vertex, center, angle) {
+    var v = { x: vertex.x, y: vertex.y };
+    vertex.x = Math.cos(angle) * (v.x - center.x) - Math.sin(angle) * (v.y - center.y) + center.x;
+    vertex.y = Math.sin(angle) * (v.x - center.x) + Math.cos(angle) * (v.y - center.y) + center.y;
+  };
+
+  function rotateVertices(vertices, center, angle) {
+    vertices.forEach(function(vertex) {
+      rotateVertex(vertex, center,angle);
+    });
   };
 
 
