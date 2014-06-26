@@ -22,25 +22,25 @@
     update: function() {
       var self = this;
       function wrapScreen(body) {
-        function wrapVertices() {
-          body.resetVertices();
-          rotatePoints(body.vertices, body.center, -body.angle + Math.PI / 2);
+        function wrapPoints() {
+          body.resetPoints();
+          rotatePoints(body.points, body.center, -body.angle + Math.PI / 2);
         }
 
         if (body.center.x < 0) {
           body.center.x = self.size.x;
-          wrapVertices();
+          wrapPoints();
         } else if (body.center.x > self.size.x) {
           body.center.x = 0;
-          wrapVertices();
+          wrapPoints();
         }
 
         if (body.center.y < 0) {
           body.center.y = self.size.y;
-          wrapVertices();
+          wrapPoints();
         } else if (body.center.y > self.size.y) {
           body.center.y = 0;
-          wrapVertices();
+          wrapPoints();
         }        
       }
 
@@ -70,7 +70,7 @@
     this.keyboarder = new Keyboarder();
 
     this.center = { x: game.size.x / 2, y: game.size.y / 2 };
-    this.resetVertices();
+    this.resetPoints();
 
     this.angle = Math.PI / 2;
     this.deltaAngle = 5 * Math.PI / 180;
@@ -84,25 +84,25 @@
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
         this.updateAngle(-this.deltaAngle);
-        rotatePoints(this.vertices, this.center, -this.deltaAngle);
+        rotatePoints(this.points, this.center, -this.deltaAngle);
       } else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
         this.updateAngle(this.deltaAngle);
-        rotatePoints(this.vertices, this.center, this.deltaAngle);
+        rotatePoints(this.points, this.center, this.deltaAngle);
       }
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
         translatePoint(this.center, this.maxLinearSpeed, this.angle);
-        translatePoints(this.vertices, this.maxLinearSpeed, this.angle);
+        translatePoints(this.points, this.maxLinearSpeed, this.angle);
       }
     },
 
     draw: function(screen) {
       screen.strokeStyle = '#eee';
       screen.beginPath();
-      screen.moveTo(this.vertices[0].x, this.vertices[0].y);
-      screen.lineTo(this.vertices[1].x, this.vertices[1].y);
-      screen.lineTo(this.vertices[2].x, this.vertices[2].y);
-      screen.lineTo(this.vertices[3].x, this.vertices[3].y);
+      screen.moveTo(this.points[0].x, this.points[0].y);
+      screen.lineTo(this.points[1].x, this.points[1].y);
+      screen.lineTo(this.points[2].x, this.points[2].y);
+      screen.lineTo(this.points[3].x, this.points[3].y);
       screen.closePath();
       screen.stroke();
     },
@@ -111,8 +111,8 @@
       this.angle = (this.angle - deltaAngle) % FULL_ROTATION;
     },
 
-    resetVertices: function() {
-      this.vertices = [
+    resetPoints: function() {
+      this.points = [
         { x:      this.center.x, y: this.center.y + 10 },
         { x: this.center.x - 10, y: this.center.y + 15 },
         { x:      this.center.x, y: this.center.y - 15 },
