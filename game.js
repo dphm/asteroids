@@ -1,4 +1,6 @@
 ;(function() {
+  var FULL_ROTATION = 2 * Math.PI;
+
   var Game = function(canvasId) {
     var canvas = document.getElementById(canvasId);
     this.size = { x: canvas.width, y: canvas.height };
@@ -68,7 +70,7 @@
     ];
 
     this.angle = 0;
-    this.angularSpeed = 5 * Math.PI / 180;
+    this.deltaAngle = 5 * Math.PI / 180;
     this.maxLinearSpeed = 4;
 
     this.keyboarder = new Keyboarder();
@@ -80,11 +82,11 @@
       }
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
-        this.angle = -this.angularSpeed % (2 * Math.PI);
-        rotateVertices(this.vertices, this.center, this.angle);
+        this.updateAngle(-this.deltaAngle);
+        rotateVertices(this.vertices, this.center, -this.deltaAngle);
       } else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
-        this.angle = this.angularSpeed % (2 * Math.PI);
-        rotateVertices(this.vertices, this.center, this.angle);
+        this.updateAngle(this.deltaAngle);
+        rotateVertices(this.vertices, this.center, this.deltaAngle);
       }
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
@@ -100,6 +102,10 @@
       screen.lineTo(this.vertices[3].x, this.vertices[3].y);
       screen.closePath();
       screen.stroke();
+    },
+
+    updateAngle: function(angularSpeed) {
+      this.angle = (this.angle + this.deltaAngle) % FULL_ROTATION;
     }
   };
 
