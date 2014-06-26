@@ -81,10 +81,10 @@
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
         this.updateAngle(-this.deltaAngle);
-        rotateVertices(this.vertices, this.center, -this.deltaAngle);
+        rotatePoints(this.vertices, this.center, -this.deltaAngle);
       } else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
         this.updateAngle(this.deltaAngle);
-        rotateVertices(this.vertices, this.center, this.deltaAngle);
+        rotatePoints(this.vertices, this.center, this.deltaAngle);
       }
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
@@ -133,15 +133,15 @@
   };
 
 
-  function rotateVertex(vertex, center, angle) {
-    var v = { x: vertex.x, y: vertex.y };
-    vertex.x = Math.cos(angle) * (v.x - center.x) - Math.sin(angle) * (v.y - center.y) + center.x;
-    vertex.y = Math.sin(angle) * (v.x - center.x) + Math.cos(angle) * (v.y - center.y) + center.y;
+  function rotatePoint(point, center, angle) {
+    var p = { x: point.x, y: point.y };
+    point.x = Math.cos(angle) * (p.x - center.x) - Math.sin(angle) * (p.y - center.y) + center.x;
+    point.y = Math.sin(angle) * (p.x - center.x) + Math.cos(angle) * (p.y - center.y) + center.y;
   };
 
-  function rotateVertices(vertices, center, angle) {
-    vertices.forEach(function(vertex) {
-      rotateVertex(vertex, center, angle);
+  function rotatePoints(points, center, angle) {
+    points.forEach(function(point) {
+      rotatePoint(point, center, angle);
     });
   };
 
