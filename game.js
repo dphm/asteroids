@@ -1,6 +1,4 @@
 ;(function() {
-  var FULL_ROTATION = 2 * Math.PI;
-
   var Game = function(canvas) {
     var screen = canvas.getContext('2d');
     this.size = { x: canvas.width, y: canvas.height };
@@ -39,9 +37,10 @@
     },
 
     wrapScreen: function(body) {
+      var self = this;
       function wrapPoints() {
         body.resetPoints();
-        rotatePoints(body.points, body.center, -body.angle + Math.PI / 2);
+        self.trig.rotatePoints(body.points, body.center, -body.angle + Math.PI / 2);
       }
 
       if (body.center.x < 0) {
@@ -59,143 +58,34 @@
         body.center.y = 0;
         wrapPoints();
       }
-    }
-  };
+    },
 
+    trig: {
+      rotatePoint: function(point, center, angle) {
+        var p = { x: point.x, y: point.y };
+        point.x = Math.cos(angle) * (p.x - center.x) - Math.sin(angle) * (p.y - center.y) + center.x;
+        point.y = Math.sin(angle) * (p.x - center.x) + Math.cos(angle) * (p.y - center.y) + center.y;
+      },
 
-  var Ship = function(game) {
-    this.game = game;
-    this.keyboarder = new Keyboarder();
+      rotatePoints: function(points, center, angle) {
+        var self = this;
+        points.forEach(function(point) {
+          self.rotatePoint(point, center, angle);
+        });
+      },
 
-    this.center = { x: game.size.x / 2, y: game.size.y / 2 };
-    this.resetPoints();
+      translatePoint: function(point, speed, angle) {
+        point.x += speed * Math.cos(angle);
+        point.y += speed * -Math.sin(angle);
+      },
 
-    this.angle = Math.PI / 2;
-    this.deltaAngle = 5 * Math.PI / 180;
-    this.maxLinearSpeed = 4;
-  };
-
-  Ship.prototype = {
-    update: function() {
-      if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE)) {
-        var bullet = new Bullet(this.points[2], this.angle, this);
-        this.game.addBody(bullet);
+      translatePoints: function(points, speed, angle) {
+        var self = this;
+        points.forEach(function(point) {
+          self.translatePoint(point, speed, angle);
+        });
       }
-
-      if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
-        this.updateAngle(-this.deltaAngle);
-        rotatePoints(this.points, this.center, -this.deltaAngle);
-      } else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
-        this.updateAngle(this.deltaAngle);
-        rotatePoints(this.points, this.center, this.deltaAngle);
-      }
-
-      if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
-        translatePoint(this.center, this.maxLinearSpeed, this.angle);
-        translatePoints(this.points, this.maxLinearSpeed, this.angle);
-      }
-
-      this.game.wrapScreen(this);
-    },
-
-    draw: function(screen) {
-      screen.strokeStyle = '#eee';
-      screen.beginPath();
-      screen.moveTo(this.points[0].x, this.points[0].y);
-      screen.lineTo(this.points[1].x, this.points[1].y);
-      screen.lineTo(this.points[2].x, this.points[2].y);
-      screen.lineTo(this.points[3].x, this.points[3].y);
-      screen.closePath();
-      screen.stroke();
-    },
-
-    updateAngle: function(deltaAngle) {
-      this.angle = (this.angle - deltaAngle) % FULL_ROTATION;
-    },
-
-    resetPoints: function() {
-      this.points = [
-        { x:      this.center.x, y: this.center.y + 10 },
-        { x: this.center.x - 10, y: this.center.y + 15 },
-        { x:      this.center.x, y: this.center.y - 15 },
-        { x: this.center.x + 11, y: this.center.y + 15 }
-      ];
     }
-  };
-
-
-  var Keyboarder = function() {
-    this.KEYS = {
-      SPACE: 32,
-      LEFT: 37,
-      UP: 38,
-      RIGHT: 39,
-      DOWN: 40
-    }
-
-    var keyState = {};
-
-    window.onkeydown = function(e) {
-      keyState[e.keyCode] = true;
-    };
-
-    window.onkeyup = function(e) {
-      keyState[e.keyCode] = false;
-    };
-
-    this.isDown = function(keyCode) {
-      return keyState[keyCode];
-    };
-  };
-
-
-  var Bullet = function(center, angle, creator) {
-    this.center = { x: center.x, y: center.y };
-    this.radius = 1;
-    this.angle = angle;
-    this.creator = creator;
-  };
-
-  Bullet.prototype = {
-    update: function() {
-      translatePoint(this.center, 6, this.angle);
-    },
-
-    draw: function(screen) {
-      screen.strokeStyle = 'white';
-      screen.beginPath();
-      screen.arc(this.center.x, this.center.y, this.radius, 0, FULL_ROTATION);
-      screen.stroke();
-    }
-  };
-
-
-  function rotatePoint(point, center, angle) {
-    var p = { x: point.x, y: point.y };
-    point.x = Math.cos(angle) * (p.x - center.x) - Math.sin(angle) * (p.y - center.y) + center.x;
-    point.y = Math.sin(angle) * (p.x - center.x) + Math.cos(angle) * (p.y - center.y) + center.y;
-  };
-
-  function rotatePoints(points, center, angle) {
-    points.forEach(function(point) {
-      rotatePoint(point, center, angle);
-    });
-  };
-
-  function translatePoint(point, speed, angle) {
-    point.x += speed * Math.cos(angle);
-    point.y += speed * -Math.sin(angle);
-  };
-
-  function translatePoints(points, speed, angle) {
-    points.forEach(function(point) {
-      translatePoint(point, speed, angle);
-    });
-  };
-
-  function teleportPoint(from, to) {
-    from.x = to.x;
-    from.y = to.y;
   };
 
   // Start game
