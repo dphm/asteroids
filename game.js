@@ -141,7 +141,7 @@
 
   function rotateVertices(vertices, center, angle) {
     vertices.forEach(function(vertex) {
-      rotateVertex(vertex, center,angle);
+      rotateVertex(vertex, center, angle);
     });
   };
 
