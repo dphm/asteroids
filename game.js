@@ -67,6 +67,7 @@
 
   var Ship = function(game) {
     this.game = game;
+    this.keyboarder = new Keyboarder();
 
     this.center = { x: game.size.x / 2, y: game.size.y / 2 };
     this.resetVertices();
@@ -74,8 +75,6 @@
     this.angle = Math.PI / 2;
     this.deltaAngle = 5 * Math.PI / 180;
     this.maxLinearSpeed = 4;
-
-    this.keyboarder = new Keyboarder();
   };
 
   Ship.prototype = {
