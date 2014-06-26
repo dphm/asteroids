@@ -78,6 +78,8 @@
   Ship.prototype = {
     update: function() {
       if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE)) {
+        var bullet = new Bullet(this.points[2], this.angle, this);
+        this.game.addBody(bullet);
       }
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
@@ -144,6 +146,27 @@
     this.isDown = function(keyCode) {
       return keyState[keyCode];
     };
+  };
+
+
+  var Bullet = function(center, angle, creator) {
+    this.center = { x: center.x, y: center.y };
+    this.radius = 1;
+    this.angle = angle;
+    this.creator = creator;
+  };
+
+  Bullet.prototype = {
+    update: function() {
+      translatePoint(this.center, 6, this.angle);
+    },
+
+    draw: function(screen) {
+      screen.strokeStyle = 'white';
+      screen.beginPath();
+      screen.arc(this.center.x, this.center.y, this.radius, 0, FULL_ROTATION);
+      screen.stroke();
+    }
   };
 
 
