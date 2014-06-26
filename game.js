@@ -22,16 +22,25 @@
     update: function() {
       var self = this;
       function wrapScreen(body) {
+        function wrapVertices() {
+          body.resetVertices();
+          rotatePoints(body.vertices, body.center, -body.angle + Math.PI / 2);
+        }
+
         if (body.center.x < 0) {
           body.center.x = self.size.x;
+          wrapVertices();
         } else if (body.center.x > self.size.x) {
           body.center.x = 0;
+          wrapVertices();
         }
 
         if (body.center.y < 0) {
           body.center.y = self.size.y;
+          wrapVertices();
         } else if (body.center.y > self.size.y) {
           body.center.y = 0;
+          wrapVertices();
         }        
       }
 
@@ -60,12 +69,7 @@
     this.game = game;
 
     this.center = { x: game.size.x / 2, y: game.size.y / 2 };
-    this.vertices = [
-      { x:      this.center.x, y: this.center.y + 10 },
-      { x: this.center.x - 10, y: this.center.y + 15 },
-      { x:      this.center.x, y: this.center.y - 15 },
-      { x: this.center.x + 11, y: this.center.y + 15 }
-    ];
+    this.resetVertices();
 
     this.angle = Math.PI / 2;
     this.deltaAngle = 5 * Math.PI / 180;
@@ -106,6 +110,15 @@
 
     updateAngle: function(deltaAngle) {
       this.angle = (this.angle - deltaAngle) % FULL_ROTATION;
+    },
+
+    resetVertices: function() {
+      this.vertices = [
+        { x:      this.center.x, y: this.center.y + 10 },
+        { x: this.center.x - 10, y: this.center.y + 15 },
+        { x:      this.center.x, y: this.center.y - 15 },
+        { x: this.center.x + 11, y: this.center.y + 15 }
+      ];
     }
   };
 
@@ -158,6 +171,10 @@
     });
   };
 
+  function teleportPoint(from, to) {
+    from.x = to.x;
+    from.y = to.y;
+  };
 
   // Start game
   window.onload = function() {
