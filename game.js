@@ -67,7 +67,7 @@
       { x: this.center.x + 11, y: this.center.y + 15 }
     ];
 
-    this.angle = 0;
+    this.angle = Math.PI / 2;
     this.deltaAngle = 5 * Math.PI / 180;
     this.maxLinearSpeed = 4;
 
