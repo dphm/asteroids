@@ -20,33 +20,8 @@
 
   Game.prototype = {
     update: function() {
-      var self = this;
-      function wrapScreen(body) {
-        function wrapPoints() {
-          body.resetPoints();
-          rotatePoints(body.points, body.center, -body.angle + Math.PI / 2);
-        }
-
-        if (body.center.x < 0) {
-          body.center.x = self.size.x;
-          wrapPoints();
-        } else if (body.center.x > self.size.x) {
-          body.center.x = 0;
-          wrapPoints();
-        }
-
-        if (body.center.y < 0) {
-          body.center.y = self.size.y;
-          wrapPoints();
-        } else if (body.center.y > self.size.y) {
-          body.center.y = 0;
-          wrapPoints();
-        }        
-      }
-
       this.bodies.map(function(body) {
         body.update();
-        wrapScreen(body);
       });
     },
 
@@ -61,6 +36,29 @@
 
     addBody: function(body) {
       this.bodies.push(body);
+    },
+
+    wrapScreen: function(body) {
+      function wrapPoints() {
+        body.resetPoints();
+        rotatePoints(body.points, body.center, -body.angle + Math.PI / 2);
+      }
+
+      if (body.center.x < 0) {
+        body.center.x = this.size.x;
+        wrapPoints();
+      } else if (body.center.x > this.size.x) {
+        body.center.x = 0;
+        wrapPoints();
+      }
+
+      if (body.center.y < 0) {
+        body.center.y = this.size.y;
+        wrapPoints();
+      } else if (body.center.y > this.size.y) {
+        body.center.y = 0;
+        wrapPoints();
+      }
     }
   };
 
@@ -94,6 +92,8 @@
         translatePoint(this.center, this.maxLinearSpeed, this.angle);
         translatePoints(this.points, this.maxLinearSpeed, this.angle);
       }
+
+      this.game.wrapScreen(this);
     },
 
     draw: function(screen) {
