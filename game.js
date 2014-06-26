@@ -88,6 +88,8 @@
       }
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
+        translatePoint(this.center, this.maxLinearSpeed, this.angle);
+        translatePoints(this.vertices, this.maxLinearSpeed, this.angle);
       }
     },
 
@@ -102,8 +104,8 @@
       screen.stroke();
     },
 
-    updateAngle: function(angularSpeed) {
-      this.angle = (this.angle + this.deltaAngle) % FULL_ROTATION;
+    updateAngle: function(deltaAngle) {
+      this.angle = (this.angle - deltaAngle) % FULL_ROTATION;
     }
   };
 
@@ -142,6 +144,17 @@
   function rotatePoints(points, center, angle) {
     points.forEach(function(point) {
       rotatePoint(point, center, angle);
+    });
+  };
+
+  function translatePoint(point, speed, angle) {
+    point.x += speed * Math.cos(angle);
+    point.y += speed * -Math.sin(angle);
+  };
+
+  function translatePoints(points, speed, angle) {
+    points.forEach(function(point) {
+      translatePoint(point, speed, angle);
     });
   };
 
