@@ -1,11 +1,9 @@
 ;(function() {
   var FULL_ROTATION = 2 * Math.PI;
 
-  var Game = function(canvasId) {
-    var canvas = document.getElementById(canvasId);
-    this.size = { x: canvas.width, y: canvas.height };
-
+  var Game = function(canvas) {
     var screen = canvas.getContext('2d');
+    this.size = { x: canvas.width, y: canvas.height };
 
     this.bodies = [];
     this.addBody(new Ship(this));
@@ -150,6 +148,7 @@
 
   // Start game
   window.onload = function() {
-    new Game('screen');
+    var canvas = document.getElementById('screen');
+    new Game(canvas);
   };
 })();
