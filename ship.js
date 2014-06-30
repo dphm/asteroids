@@ -53,9 +53,9 @@
 
     resetPoints: function() {
       this.points = [
-        { x:      this.center.x, y: this.center.y + 10 },
+        { x: this.center.x     , y: this.center.y + 10 },
         { x: this.center.x - 10, y: this.center.y + 15 },
-        { x:      this.center.x, y: this.center.y - 15 },
+        { x: this.center.x     , y: this.center.y - 15 },
         { x: this.center.x + 11, y: this.center.y + 15 }
       ];
     }
