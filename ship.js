@@ -40,9 +40,9 @@
       screen.strokeStyle = '#eee';
       screen.beginPath();
       screen.moveTo(this.points[0].x, this.points[0].y);
-      screen.lineTo(this.points[1].x, this.points[1].y);
-      screen.lineTo(this.points[2].x, this.points[2].y);
-      screen.lineTo(this.points[3].x, this.points[3].y);
+      for (var i = 1; i < this.points.length; i++) {
+        screen.lineTo(this.points[i].x, this.points[i].y);
+      }
       screen.closePath();
       screen.stroke();
     },
