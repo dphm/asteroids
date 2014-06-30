@@ -1,12 +1,18 @@
 ;(function() {
   var Game = function(canvas) {
+    var self = this;
     var screen = canvas.getContext('2d');
     this.size = { x: canvas.width, y: canvas.height };
 
     this.bodies = [];
     this.addBody(new Ship(this));
+    for (var i = 0; i < 5; i++) {
+      this.addBody(
+        new Asteroid(this, { x: Math.random() * self.size.x,
+                             y: Math.random() * self.size.y })
+      );
+    }
 
-    var self = this;
     var tick = function() {
       self.update();
       self.draw(screen);
