@@ -24,7 +24,9 @@
     },
 
     draw: function(screen) {
+      screen.lineWidth = 2;
       screen.strokeStyle = '#aaa';
+      screen.fillStyle = '#000';
       screen.beginPath();
       screen.moveTo(this.points[0].x, this.points[0].y);
       for (var i = 1; i < this.points.length; i++) {
@@ -32,6 +34,7 @@
       }
       screen.closePath();
       screen.stroke();
+      screen.fill();
     },
 
     resetPoints: function() {
