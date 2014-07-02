@@ -2,16 +2,7 @@
   var Asteroid = function(game, center) {
     this.game = game;
     this.center = center;
-    this.velocity = { x: Math.random(), y: Math.random()};
-    
-    if (this.velocity.x < 0.5) {
-      this.velocity.x = -this.velocity.x;
-    }
-
-    if (this.velocity.y < 0.5) {
-      this.velocity.y = -this.velocity.y;
-    }
-
+    this.velocity = { x: randomVelocity(), y: randomVelocity() };
     this.resetPoints();
   };
 
@@ -54,6 +45,12 @@
       ];
     }
   };
+
+  function randomVelocity() {
+    var rand = Math.random();
+    if (rand < 0.5) return -rand;
+    return rand;
+  }
 
   exports.Asteroid = Asteroid;
 })(this);
