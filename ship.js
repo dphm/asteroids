@@ -37,6 +37,7 @@
     },
 
     draw: function(screen) {
+      screen.lineWidth = 1;
       screen.strokeStyle = '#eee';
       screen.beginPath();
       screen.moveTo(this.points[0].x, this.points[0].y);
