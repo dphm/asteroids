@@ -7,6 +7,7 @@
 
     this.center = { x: game.size.x / 2, y: game.size.y / 2 };
     this.resetPoints();
+    this.resetLineSegments();
 
     this.angle = Math.PI / 2;
     this.deltaAngle = 5 * Math.PI / 180;
@@ -59,6 +60,18 @@
         { x: this.center.x     , y: this.center.y - 15 },
         { x: this.center.x + 11, y: this.center.y + 15 }
       ];
+    },
+
+    resetLineSegments: function() {
+      this.lineSegments = [];
+      var self = this;
+      this.points.forEach(function(point, i, points) {
+        if (i !== points.length - 1) {
+          self.lineSegments.push({ p1: points[i], p2: points[i + 1] });
+        } else {
+          self.lineSegments.push({ p1: points[i], p2: points[0] });
+        }
+      });
     }
   };
 

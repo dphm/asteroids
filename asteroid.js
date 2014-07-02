@@ -4,6 +4,7 @@
     this.center = center;
     this.velocity = { x: randomVelocity(), y: randomVelocity() };
     this.resetPoints();
+    this.resetLineSegments();
   };
 
   Asteroid.prototype = {
@@ -11,6 +12,7 @@
       this.center.x += this.velocity.x;
       this.center.y += this.velocity.y;
       this.resetPoints();
+      this.resetLineSegments();
       this.game.wrapScreen(this);
     },
 
@@ -43,6 +45,18 @@
         { x: this.center.x + 15, y: this.center.y      },
         { x: this.center.x +  8, y: this.center.y - 14 },
       ];
+    },
+
+    resetLineSegments: function() {
+      this.lineSegments = [];
+      var self = this;
+      this.points.forEach(function(point, i, points) {
+        if (i !== points.length - 1) {
+          self.lineSegments.push({ p1: points[i], p2: points[i + 1] });
+        } else {
+          self.lineSegments.push({ p1: points[i], p2: points[0] });
+        }
+      });
     }
   };
 

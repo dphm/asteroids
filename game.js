@@ -24,6 +24,14 @@
 
   Game.prototype = {
     update: function() {
+      var self = this;
+
+      var notCollidingWithAnything = function(b1) {
+        return self.bodies.every(function(b2) { return !self.colliding(b1, b2); });
+      };
+
+      this.bodies = this.bodies.filter(notCollidingWithAnything);
+
       this.bodies.map(function(body) {
         body.update();
       });
@@ -46,6 +54,7 @@
       var self = this;
       function wrapPoints() {
         body.resetPoints();
+        body.resetLineSegments();
         self.trig.rotatePoints(body.points, body.center, -body.angle + Math.PI / 2);
       }
 
@@ -64,6 +73,27 @@
         body.center.y = 0;
         wrapPoints();
       }
+    },
+
+    colliding: function(b1, b2) {
+      var self = this;
+
+      // Ignore bullets for now
+      if (b1 instanceof Bullet || b2 instanceof Bullet) return false;
+      if (b1 instanceof Asteroid && b2 instanceof Asteroid) return false;
+
+      if (b1 === b2) return false;
+      var lines1 = b1.lineSegments;
+      var lines2 = b2.lineSegments;
+
+      for (var i = 0; i < lines1.length; i++) {
+        for (var j = 0; j < lines2.length; j++) {
+          var intersection = self.trig.intersection(lines1[i], lines2[j]);
+          if (intersection) return true;
+        }
+      }
+
+      return false;
     },
 
     trig: {
@@ -90,6 +120,37 @@
         points.forEach(function(point) {
           self.translatePoint(point, speed, angle);
         });
+      },
+
+      intersection: function (l1, l2) {
+        var A1 = l1.p2.y - l1.p1.y;
+        var B1 = l1.p1.x - l1.p2.x;
+        var C1 = A1 * l1.p1.x + B1 * l1.p1.y;
+
+        var A2 = l2.p2.y - l2.p1.y;
+        var B2 = l2.p1.x - l2.p2.x;
+        var C2 = A2 * l2.p1.x + B2 * l2.p1.y;
+
+        var det = A1 * B2 - A2 * B1;
+
+        if (det === 0) {
+          return null;
+        } else {
+          var x = Math.floor((B2 * C1 - B1 * C2) / det);
+          var y = Math.floor((A1 * C2 - A2 * C1) / det);
+          var intersection = { x: x, y: y };
+          
+          if (x >= Math.min(l1.p1.x, l1.p2.x) &&
+              x <= Math.max(l1.p1.x, l1.p2.x) &&
+              y >= Math.min(l1.p1.y, l1.p2.y) &&
+              y <= Math.max(l1.p1.y, l1.p2.y) &&
+              x >= Math.min(l2.p1.x, l2.p2.x) &&
+              x <= Math.max(l2.p1.x, l2.p2.x) &&
+              y >= Math.min(l2.p1.y, l2.p2.y) &&
+              y <= Math.max(l2.p1.y, l2.p2.y)) {
+            return intersection;
+          }
+        }
       }
     }
   };
