@@ -153,6 +153,25 @@
           }
         }
       }
+    },
+
+    over: function() {
+      var self = this;
+      this.update = function() {};
+      this.draw = function(screen) {
+        screen.fillStyle = 'gray';
+        screen.fillRect(0, 0, this.size.x, this.size.y);
+
+        screen.font = '20px Helvetica';
+        screen.fillStyle = 'white';
+        screen.fillText('game over', 250, 300);
+
+        for (var i = 0; i < this.bodies.length; i++) {
+          if (this.bodies[i] instanceof Ship) {
+            this.bodies[i].draw(screen);
+          }
+        }
+      };
     }
   };
 
