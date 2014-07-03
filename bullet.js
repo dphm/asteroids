@@ -10,6 +10,7 @@
 
   Bullet.prototype = {
     update: function() {
+      if (this.offScreen()) this.die();
       this.creator.game.trig.translatePoint(this.center, 6, this.angle);
     },
 
@@ -18,6 +19,16 @@
       screen.beginPath();
       screen.arc(this.center.x, this.center.y, this.radius, 0, FULL_ROTATION);
       screen.stroke();
+    },
+
+    die: function() {
+      var i = this.creator.game.bodies.indexOf(this);
+      delete this.creator.game.bodies[i];
+    },
+
+    offScreen: function() {
+      return this.center.x < 0 || this.center.x > this.creator.game.size.x ||
+             this.center.y < 0 || this.center.y > this.creator.game.size.y;
     }
   };
 
