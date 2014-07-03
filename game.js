@@ -15,7 +15,7 @@
 
     this.frame = 0;
     var tick = function() {
-      self.frame++;
+      self.frame = (self.frame + 1) % 3600;
 
       self.update();
       self.draw(screen);
