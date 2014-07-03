@@ -26,14 +26,15 @@
     update: function() {
       var self = this;
 
-      var notCollidingWithAnything = function(b1) {
-        return self.bodies.every(function(b2) { return !self.colliding(b1, b2); });
-      };
+      self.bodies.forEach(function(b1) {
+        self.bodies.forEach(function(b2) {
+          if (self.colliding(b1, b2)) {
+            b1.die();
+            b2.die();
+          }
+        });
 
-      this.bodies = this.bodies.filter(notCollidingWithAnything);
-
-      this.bodies.forEach(function(body) {
-        body.update();
+        b1.update();
       });
     },
 
