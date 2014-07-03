@@ -78,18 +78,15 @@
     colliding: function(b1, b2) {
       var self = this;
 
-      // Ignore bullets for now
-      if (b1 instanceof Bullet || b2 instanceof Bullet) return false;
-      if (b1 instanceof Asteroid && b2 instanceof Asteroid) return false;
-
-      if (b1 === b2) return false;
-      var lines1 = b1.lineSegments;
-      var lines2 = b2.lineSegments;
-
-      for (var i = 0; i < lines1.length; i++) {
-        for (var j = 0; j < lines2.length; j++) {
-          var intersection = self.trig.intersection(lines1[i], lines2[j]);
-          if (intersection) return true;
+      if (b1 instanceof Ship && b2 instanceof Asteroid ||
+          b1 instanceof Asteroid && b2 instanceof Ship) {
+        var lines1 = b1.lineSegments;
+        var lines2 = b2.lineSegments;
+        for (var i = 0; i < lines1.length; i++) {
+          for (var j = 0; j < lines2.length; j++) {
+            var intersection = self.trig.intersection(lines1[i], lines2[j]);
+            if (intersection) return true;
+          }
         }
       }
 
@@ -122,7 +119,17 @@
         });
       },
 
-      intersection: function (l1, l2) {
+      pointOnLine: function(p, l) {
+        var x = p.x;
+        var y = p.y;
+
+        return x >= Math.min(l.p1.x, l.p2.x) &&
+               x <= Math.max(l.p1.x, l.p2.x) &&
+               y >= Math.min(l.p1.y, l.p2.y) &&
+               y <= Math.max(l.p1.y, l.p2.y);
+      },
+
+      intersection: function(l1, l2) {
         var A1 = l1.p2.y - l1.p1.y;
         var B1 = l1.p1.x - l1.p2.x;
         var C1 = A1 * l1.p1.x + B1 * l1.p1.y;
@@ -140,14 +147,7 @@
           var y = Math.floor((A1 * C2 - A2 * C1) / det);
           var intersection = { x: x, y: y };
           
-          if (x >= Math.min(l1.p1.x, l1.p2.x) &&
-              x <= Math.max(l1.p1.x, l1.p2.x) &&
-              y >= Math.min(l1.p1.y, l1.p2.y) &&
-              y <= Math.max(l1.p1.y, l1.p2.y) &&
-              x >= Math.min(l2.p1.x, l2.p2.x) &&
-              x <= Math.max(l2.p1.x, l2.p2.x) &&
-              y >= Math.min(l2.p1.y, l2.p2.y) &&
-              y <= Math.max(l2.p1.y, l2.p2.y)) {
+          if (this.pointOnLine(intersection, l1) && this.pointOnLine(intersection, l2)) {
             return intersection;
           }
         }
