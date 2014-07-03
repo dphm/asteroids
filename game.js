@@ -32,7 +32,7 @@
 
       this.bodies = this.bodies.filter(notCollidingWithAnything);
 
-      this.bodies.map(function(body) {
+      this.bodies.forEach(function(body) {
         body.update();
       });
     },
