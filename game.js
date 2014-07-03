@@ -13,7 +13,10 @@
       );
     }
 
+    this.frame = 0;
     var tick = function() {
+      self.frame++;
+
       self.update();
       self.draw(screen);
       requestAnimationFrame(tick);

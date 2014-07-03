@@ -4,6 +4,7 @@
   var Ship = function(game) {
     this.game = game;
     this.keyboarder = new Keyboarder();
+    this.lastFired = 0;
 
     this.center = { x: game.size.x / 2, y: game.size.y / 2 };
     this.resetPoints();
@@ -16,9 +17,11 @@
 
   Ship.prototype = {
     update: function() {
-      if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE)) {
+      if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE) &&
+          this.game.frame - this.lastFired >= 20) {
         var bullet = new Bullet(this.points[2], this.angle, this);
         this.game.addBody(bullet);
+        this.lastFired = this.game.frame;
       }
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
