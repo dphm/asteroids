@@ -30,6 +30,11 @@
       screen.fill();
     },
 
+    die: function() {
+      var i = this.game.bodies.indexOf(this);
+      delete this.game.bodies[i];
+    },
+
     resetPoints: function() {
       this.points = [
         { x: this.center.x -  5, y: this.center.y - 15 },

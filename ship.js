@@ -49,6 +49,10 @@
       screen.stroke();
     },
 
+    die: function() {
+      this.game.over();
+    },
+
     updateAngle: function(deltaAngle) {
       this.angle = (this.angle - deltaAngle) % FULL_ROTATION;
     },
