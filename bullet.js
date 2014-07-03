@@ -5,13 +5,14 @@
     this.center = { x: center.x, y: center.y };
     this.radius = 1;
     this.angle = angle;
+    this.speed = 5;
     this.creator = creator;
   };
 
   Bullet.prototype = {
     update: function() {
       if (this.offScreen()) this.die();
-      this.creator.game.trig.translatePoint(this.center, 6, this.angle);
+      this.creator.game.trig.translatePoint(this.center, this.speed, this.angle);
     },
 
     draw: function(screen) {
