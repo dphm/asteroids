@@ -147,8 +147,8 @@
         if (det === 0) {
           return null;
         } else {
-          var x = Math.floor((B2 * C1 - B1 * C2) / det);
-          var y = Math.floor((A1 * C2 - A2 * C1) / det);
+          var x = (B2 * C1 - B1 * C2) / det;
+          var y = (A1 * C2 - A2 * C1) / det;
           var intersection = { x: x, y: y };
           
           if (this.pointOnLine(intersection, l1) && this.pointOnLine(intersection, l2)) {
