@@ -18,10 +18,10 @@
   Ship.prototype = {
     update: function() {
       if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE) &&
-          this.game.frame - this.lastFired >= 20) {
+          Date.now() - this.lastFired >= 300) {
         var bullet = new Bullet(this.points[2], this.angle, this);
         this.game.addBody(bullet);
-        this.lastFired = this.game.frame;
+        this.lastFired = Date.now();
       }
 
       if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
