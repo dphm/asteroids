@@ -85,9 +85,21 @@
         var lines2 = b2.lineSegments;
         for (var i = 0; i < lines1.length; i++) {
           for (var j = 0; j < lines2.length; j++) {
-            var intersection = self.trig.intersection(lines1[i], lines2[j]);
+            var intersection = self.trig.lineIntersection(lines1[i], lines2[j]);
             if (intersection) return true;
           }
+        }
+      } else if (b1 instanceof Bullet) {
+        if (b2 instanceof Bullet || b2 instanceof Ship) return false;
+
+        for (var i = 0; i < b2.lineSegments.length; i++) {
+          if (this.trig.pointOnLine(b1.center, b2.lineSegments[i])) return true;
+        }
+      } else if (b2 instanceof Bullet) {
+        if (b1 instanceof Bullet || b1 instanceof Ship) return false;
+
+        for (var i = 0; i < b1.lineSegments.length; i++) {
+          if (this.trig.pointOnLine(b2.center, b1.lineSegments[i])) return true;
         }
       }
 
@@ -121,6 +133,17 @@
       },
 
       pointOnLine: function(p, l) {
+        var A = l.p2.y - l.p1.y;
+        var B = l.p1.x - l.p2.x;
+        var C = A * l.p1.x + B * l.p1.y;
+
+        var d = Math.abs(A * p.x + B * p.y - C);
+        var e = 1;
+
+        return d < e && this.pointInBounds(p, l);
+      },
+
+      pointInBounds: function(p, l) {
         var x = p.x;
         var y = p.y;
 
@@ -130,7 +153,7 @@
                y <= Math.max(l.p1.y, l.p2.y);
       },
 
-      intersection: function(l1, l2) {
+      lineIntersection: function(l1, l2) {
         var A1 = l1.p2.y - l1.p1.y;
         var B1 = l1.p1.x - l1.p2.x;
         var C1 = A1 * l1.p1.x + B1 * l1.p1.y;
@@ -148,7 +171,7 @@
           var y = (A1 * C2 - A2 * C1) / det;
           var intersection = { x: x, y: y };
           
-          if (this.pointOnLine(intersection, l1) && this.pointOnLine(intersection, l2)) {
+          if (this.pointInBounds(intersection, l1) && this.pointInBounds(intersection, l2)) {
             return intersection;
           }
         }
