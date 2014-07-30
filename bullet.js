@@ -11,8 +11,8 @@
 
   Bullet.prototype = {
     update: function() {
-      if (this.offScreen()) this.die();
       this.creator.game.trig.translatePoint(this.center, this.speed, this.angle);
+      if (this.offScreen()) this.die();
     },
 
     draw: function(screen) {
