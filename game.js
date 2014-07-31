@@ -6,7 +6,7 @@
 
     this.bodies = [];
     this.addBody(new Ship(this));
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 1; i++) {
       this.addBody(
         new Asteroid(this, { x: Math.random() * self.size.x,
                              y: Math.random() * self.size.y })
@@ -29,8 +29,13 @@
       self.bodies.forEach(function(b1) {
         self.bodies.forEach(function(b2) {
           if (self.colliding(b1, b2)) {
+            /*
             b1.die();
             b2.die();
+            */
+            console.log(b1);
+            console.log(b2);
+            self.over();
           }
         });
 
@@ -80,26 +85,19 @@
       var self = this;
 
       if (b1 instanceof Ship && b2 instanceof Asteroid ||
-          b1 instanceof Asteroid && b2 instanceof Ship) {
+          b1 instanceof Asteroid && b2 instanceof Ship ||
+          b1 instanceof Bullet && !(b2 instanceof Ship) ||
+          !(b1 instanceof Ship) && b2 instanceof Bullet) {
         var lines1 = b1.lineSegments;
         var lines2 = b2.lineSegments;
         for (var i = 0; i < lines1.length; i++) {
           for (var j = 0; j < lines2.length; j++) {
             var intersection = self.trig.lineIntersection(lines1[i], lines2[j]);
-            if (intersection) return true;
+            if (intersection) {
+              console.log(intersection);
+              return true;
+            }
           }
-        }
-      } else if (b1 instanceof Bullet) {
-        if (b2 instanceof Bullet || b2 instanceof Ship) return false;
-
-        for (var i = 0; i < b2.lineSegments.length; i++) {
-          if (this.trig.pointOnLine(b1.center, b2.lineSegments[i])) return true;
-        }
-      } else if (b2 instanceof Bullet) {
-        if (b1 instanceof Bullet || b1 instanceof Ship) return false;
-
-        for (var i = 0; i < b1.lineSegments.length; i++) {
-          if (this.trig.pointOnLine(b2.center, b1.lineSegments[i])) return true;
         }
       }
 
@@ -140,7 +138,7 @@
         var d = Math.abs(A * p.x + B * p.y - C);
         var e = 1;
 
-        return d < e && this.pointInBounds(p, l);
+        return this.pointInBounds(p, l) && d < e;
       },
 
       pointInBounds: function(p, l) {
@@ -181,6 +179,7 @@
     over: function() {
       var self = this;
       this.update = function() {};
+      /*
       this.draw = function(screen) {
         screen.fillStyle = 'gray';
         screen.fillRect(0, 0, this.size.x, this.size.y);
@@ -195,6 +194,7 @@
           }
         }
       };
+      */
     }
   };
 
