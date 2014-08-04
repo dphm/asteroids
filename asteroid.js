@@ -3,7 +3,7 @@
     this.game = game;
     this.center = center;
     this.velocity = { x: randomVelocity(), y: randomVelocity() };
-    this.size = 3;
+    this.size = 1;
     this.resetPoints();
     this.resetLineSegments();
   };
@@ -69,18 +69,18 @@
         ];
       } else {
         this.points = [
-          { x: this.center.x -  5, y: this.center.y - 15 },
-          { x: this.center.x - 15, y: this.center.y -  8 },
-          { x: this.center.x - 12, y: this.center.y -  2 },
-          { x: this.center.x - 17, y: this.center.y      },
-          { x: this.center.x - 16, y: this.center.y + 10 },
-          { x: this.center.x -  5, y: this.center.y + 15 },
-          { x: this.center.x     , y: this.center.y + 10 },
-          { x: this.center.x +  5, y: this.center.y + 15 },
-          { x: this.center.x + 10, y: this.center.y +  8 },
-          { x: this.center.x +  8, y: this.center.y +  3 },
-          { x: this.center.x + 15, y: this.center.y      },
-          { x: this.center.x +  8, y: this.center.y - 14 }
+          { x: this.center.x -  3.75, y: this.center.y - 11.25 },
+          { x: this.center.x - 11.25, y: this.center.y -  6.0 },
+          { x: this.center.x - 9.0, y: this.center.y -  1.5 },
+          { x: this.center.x - 12.75, y: this.center.y      },
+          { x: this.center.x - 12, y: this.center.y + 7.5 },
+          { x: this.center.x -  3.75, y: this.center.y + 11.25 },
+          { x: this.center.x     , y: this.center.y + 7.5 },
+          { x: this.center.x +  3.75, y: this.center.y + 11.25 },
+          { x: this.center.x + 7.5, y: this.center.y +  6 },
+          { x: this.center.x +  6, y: this.center.y +  2.25 },
+          { x: this.center.x + 11.25, y: this.center.y      },
+          { x: this.center.x +  6, y: this.center.y - 10.5 }
         ];
       }
       
