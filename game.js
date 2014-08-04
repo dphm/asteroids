@@ -29,13 +29,11 @@
       self.bodies.forEach(function(b1) {
         self.bodies.forEach(function(b2) {
           if (self.colliding(b1, b2)) {
-            /*
             b1.die();
             b2.die();
-            */
             console.log(b1);
             console.log(b2);
-            self.over();
+            // self.over();
           }
         });
 

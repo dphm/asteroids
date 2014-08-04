@@ -18,27 +18,14 @@
       this.resetLineSegments();
       if (this.offScreen()) {
         this.die();
-        this.creator.die();
       }
     },
 
     draw: function(screen) {
-      screen.lineWidth = 2;
-      screen.strokeStyle = '#fff';
-      screen.beginPath();
-      screen.moveTo(this.points[0].x, this.points[0].y);
-      for (var i = 1; i < this.points.length; i++) {
-        screen.lineTo(this.points[i].x, this.points[i].y);
-      }
-      screen.closePath();
-      screen.stroke();
-
-      /*
       screen.strokeStyle = 'white';
       screen.beginPath();
       screen.arc(this.center.x, this.center.y, this.radius, 0, FULL_ROTATION);
       screen.stroke();
-      */
     },
 
     die: function() {
