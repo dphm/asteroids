@@ -41,8 +41,8 @@
     resetPoints: function() {
       this.points = [
         { x: this.center.x, y: this.center.y },
-        { x: this.center.x + (this.speed) *  Math.cos(this.angle),
-          y: this.center.y + (this.speed) * -Math.sin(this.angle) }
+        { x: this.center.x + this.speed *  Math.cos(this.angle),
+          y: this.center.y + this.speed * -Math.sin(this.angle) }
       ];
     },
 
