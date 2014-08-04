@@ -39,18 +39,18 @@
     resetPoints: function() {
       if (this.size === 3) {
         this.points = [
-          { x: this.center.x - 10, y: this.center.y - 30 },
-          { x: this.center.x - 30, y: this.center.y - 16 },
-          { x: this.center.x - 24, y: this.center.y -  4 },
-          { x: this.center.x - 34, y: this.center.y      },
-          { x: this.center.x - 32, y: this.center.y + 20 },
-          { x: this.center.x - 10, y: this.center.y + 30 },
-          { x: this.center.x     , y: this.center.y + 20 },
-          { x: this.center.x + 10, y: this.center.y + 30 },
-          { x: this.center.x + 20, y: this.center.y + 16 },
-          { x: this.center.x + 16, y: this.center.y +  6 },
-          { x: this.center.x + 30, y: this.center.y      },
-          { x: this.center.x + 16, y: this.center.y - 28 }
+          { x: this.center.x -  7.5, y: this.center.y - 22.5 },
+          { x: this.center.x - 22.5, y: this.center.y -   12 },
+          { x: this.center.x -   18, y: this.center.y -    3 },
+          { x: this.center.x - 25.5, y: this.center.y        },
+          { x: this.center.x -   24, y: this.center.y +   15 },
+          { x: this.center.x -  7.5, y: this.center.y + 22.5 },
+          { x: this.center.x       , y: this.center.y +   15 },
+          { x: this.center.x +  7.5, y: this.center.y + 22.5 },
+          { x: this.center.x +   15, y: this.center.y +   12 },
+          { x: this.center.x +   12, y: this.center.y +  4.5 },
+          { x: this.center.x + 22.5, y: this.center.y        },
+          { x: this.center.x +   12, y: this.center.y -   21 }
         ];
       } else if (this.size === 2) {
         this.points = [
