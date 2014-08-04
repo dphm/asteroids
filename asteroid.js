@@ -3,6 +3,7 @@
     this.game = game;
     this.center = center;
     this.velocity = { x: randomVelocity(), y: randomVelocity() };
+    this.size = 3;
     this.resetPoints();
     this.resetLineSegments();
   };
@@ -36,20 +37,53 @@
     },
 
     resetPoints: function() {
-      this.points = [
-        { x: this.center.x -  5, y: this.center.y - 15 },
-        { x: this.center.x - 15, y: this.center.y -  8 },
-        { x: this.center.x - 12, y: this.center.y -  2 },
-        { x: this.center.x - 17, y: this.center.y      },
-        { x: this.center.x - 16, y: this.center.y + 10 },
-        { x: this.center.x -  5, y: this.center.y + 15 },
-        { x: this.center.x     , y: this.center.y + 10 },
-        { x: this.center.x +  5, y: this.center.y + 15 },
-        { x: this.center.x + 10, y: this.center.y +  8 },
-        { x: this.center.x +  8, y: this.center.y +  3 },
-        { x: this.center.x + 15, y: this.center.y      },
-        { x: this.center.x +  8, y: this.center.y - 14 },
-      ];
+      if (this.size === 3) {
+        this.points = [
+          { x: this.center.x - 10, y: this.center.y - 30 },
+          { x: this.center.x - 30, y: this.center.y - 16 },
+          { x: this.center.x - 24, y: this.center.y -  4 },
+          { x: this.center.x - 34, y: this.center.y      },
+          { x: this.center.x - 32, y: this.center.y + 20 },
+          { x: this.center.x - 10, y: this.center.y + 30 },
+          { x: this.center.x     , y: this.center.y + 20 },
+          { x: this.center.x + 10, y: this.center.y + 30 },
+          { x: this.center.x + 20, y: this.center.y + 16 },
+          { x: this.center.x + 16, y: this.center.y +  6 },
+          { x: this.center.x + 30, y: this.center.y      },
+          { x: this.center.x + 16, y: this.center.y - 28 }
+        ];
+      } else if (this.size === 2) {
+        this.points = [
+          { x: this.center.x -  5, y: this.center.y - 15 },
+          { x: this.center.x - 15, y: this.center.y -  8 },
+          { x: this.center.x - 12, y: this.center.y -  2 },
+          { x: this.center.x - 17, y: this.center.y      },
+          { x: this.center.x - 16, y: this.center.y + 10 },
+          { x: this.center.x -  5, y: this.center.y + 15 },
+          { x: this.center.x     , y: this.center.y + 10 },
+          { x: this.center.x +  5, y: this.center.y + 15 },
+          { x: this.center.x + 10, y: this.center.y +  8 },
+          { x: this.center.x +  8, y: this.center.y +  3 },
+          { x: this.center.x + 15, y: this.center.y      },
+          { x: this.center.x +  8, y: this.center.y - 14 }
+        ];
+      } else {
+        this.points = [
+          { x: this.center.x -  5, y: this.center.y - 15 },
+          { x: this.center.x - 15, y: this.center.y -  8 },
+          { x: this.center.x - 12, y: this.center.y -  2 },
+          { x: this.center.x - 17, y: this.center.y      },
+          { x: this.center.x - 16, y: this.center.y + 10 },
+          { x: this.center.x -  5, y: this.center.y + 15 },
+          { x: this.center.x     , y: this.center.y + 10 },
+          { x: this.center.x +  5, y: this.center.y + 15 },
+          { x: this.center.x + 10, y: this.center.y +  8 },
+          { x: this.center.x +  8, y: this.center.y +  3 },
+          { x: this.center.x + 15, y: this.center.y      },
+          { x: this.center.x +  8, y: this.center.y - 14 }
+        ];
+      }
+      
     },
 
     resetLineSegments: function() {
