@@ -33,7 +33,6 @@
             b2.die();
             console.log(b1);
             console.log(b2);
-            // self.over();
           }
         });
 
@@ -177,7 +176,6 @@
     over: function() {
       var self = this;
       this.update = function() {};
-      /*
       this.draw = function(screen) {
         screen.fillStyle = 'gray';
         screen.fillRect(0, 0, this.size.x, this.size.y);
@@ -192,7 +190,6 @@
           }
         }
       };
-      */
     }
   };
 
