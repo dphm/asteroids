@@ -70,17 +70,17 @@
       } else {
         this.points = [
           { x: this.center.x -  3.75, y: this.center.y - 11.25 },
-          { x: this.center.x - 11.25, y: this.center.y -  6.0 },
-          { x: this.center.x - 9.0, y: this.center.y -  1.5 },
-          { x: this.center.x - 12.75, y: this.center.y      },
-          { x: this.center.x - 12, y: this.center.y + 7.5 },
+          { x: this.center.x - 11.25, y: this.center.y -   6.0 },
+          { x: this.center.x -   9.0, y: this.center.y -   1.5 },
+          { x: this.center.x - 12.75, y: this.center.y         },
+          { x: this.center.x -    12, y: this.center.y +   7.5 },
           { x: this.center.x -  3.75, y: this.center.y + 11.25 },
-          { x: this.center.x     , y: this.center.y + 7.5 },
+          { x: this.center.x        , y: this.center.y +   7.5 },
           { x: this.center.x +  3.75, y: this.center.y + 11.25 },
-          { x: this.center.x + 7.5, y: this.center.y +  6 },
-          { x: this.center.x +  6, y: this.center.y +  2.25 },
-          { x: this.center.x + 11.25, y: this.center.y      },
-          { x: this.center.x +  6, y: this.center.y - 10.5 }
+          { x: this.center.x +   7.5, y: this.center.y +     6 },
+          { x: this.center.x +     6, y: this.center.y +  2.25 },
+          { x: this.center.x + 11.25, y: this.center.y         },
+          { x: this.center.x +     6, y: this.center.y -  10.5 }
         ];
       }
       
