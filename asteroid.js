@@ -1,9 +1,9 @@
 ;(function(exports) {
-  var Asteroid = function(game, center) {
+  var Asteroid = function(game, center, size) {
     this.game = game;
     this.center = center;
     this.velocity = { x: randomVelocity(), y: randomVelocity() };
-    this.size = 1;
+    this.size = size;
     this.resetPoints();
     this.resetLineSegments();
   };

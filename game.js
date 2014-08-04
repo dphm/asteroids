@@ -9,7 +9,7 @@
     for (var i = 0; i < 1; i++) {
       this.addBody(
         new Asteroid(this, { x: Math.random() * self.size.x,
-                             y: Math.random() * self.size.y })
+                             y: Math.random() * self.size.y }, 3)
       );
     }
 
