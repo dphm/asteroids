@@ -31,8 +31,6 @@
           if (self.colliding(b1, b2)) {
             b1.die();
             b2.die();
-            console.log(b1);
-            console.log(b2);
           }
         });
 

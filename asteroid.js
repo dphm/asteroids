@@ -31,9 +31,31 @@
       screen.fill();
     },
 
+    spawn: function() {
+      var a1 = new Asteroid(this.game, this.center, this.size - 1);
+      a1.setVelocity({ x: -1, y: -1 });
+      this.game.addBody(a1);
+
+      var a2 = new Asteroid(this.game, this.center, this.size - 1);
+      a2.setVelocity({ x: 2, y: 2 });
+      this.game.addBody(a2);
+
+      var a3 = new Asteroid(this.game, this.center, this.size - 1);
+      a3.setVelocity({ x: -2, y: -2 });
+      this.game.addBody(a3);
+    },
+
     die: function() {
+      if (this.size > 1) {
+        this.spawn();
+      }
+
       var i = this.game.bodies.indexOf(this);
       delete this.game.bodies[i];
+    },
+
+    setVelocity: function(velocity) {
+      this.velocity = velocity;
     },
 
     resetPoints: function() {
