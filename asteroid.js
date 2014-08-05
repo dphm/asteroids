@@ -1,4 +1,6 @@
 ;(function(exports) {
+  var FULL_ROTATION = 2 * Math.PI;
+
   var Asteroid = function(game, center, size) {
     this.game = game;
     this.center = center;
@@ -32,14 +34,9 @@
     },
 
     spawn: function() {
-      var a1 = new Asteroid(this.game, this.center, this.size - 1);
-      this.game.addBody(a1);
-
-      var a2 = new Asteroid(this.game, this.center, this.size - 1);
-      this.game.addBody(a2);
-
-      var a3 = new Asteroid(this.game, this.center, this.size - 1);
-      this.game.addBody(a3);
+      for (var i = 0; i < 3; i++) {
+        this.game.addBody(new Asteroid(this.game, { x: this.center.x, y: this.center.y }, this.size - 1));
+      }
       console.log(this.game.bodies);
     },
 
@@ -122,7 +119,7 @@
   }
 
   function randomAngle() {
-    return Math.random() * 360;
+    return Math.random() * FULL_ROTATION;
   }
 
   exports.Asteroid = Asteroid;
