@@ -63,7 +63,7 @@
         body.center.x = this.size.x;
         wrapPoints();
       } else if (body.center.x > this.size.x) {
-        body.center.x = 0;
+        body.center.x = 1;
         wrapPoints();
       }
 
@@ -71,7 +71,7 @@
         body.center.y = this.size.y;
         wrapPoints();
       } else if (body.center.y > this.size.y) {
-        body.center.y = 0;
+        body.center.y = 1;
         wrapPoints();
       }
     },
