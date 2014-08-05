@@ -2,7 +2,8 @@
   var Asteroid = function(game, center, size) {
     this.game = game;
     this.center = center;
-    this.velocity = { x: randomVelocity(), y: randomVelocity() };
+    this.angle = randomAngle();
+    this.speed = 1;
     this.size = size;
     this.resetPoints();
     this.resetLineSegments();
@@ -10,8 +11,7 @@
 
   Asteroid.prototype = {
     update: function() {
-      this.center.x += this.velocity.x;
-      this.center.y += this.velocity.y;
+      this.game.trig.translatePoint(this.center, this.speed, this.angle);
       this.resetPoints();
       this.resetLineSegments();
       this.game.wrapScreen(this);
@@ -33,16 +33,14 @@
 
     spawn: function() {
       var a1 = new Asteroid(this.game, this.center, this.size - 1);
-      a1.setVelocity({ x: -1, y: -1 });
       this.game.addBody(a1);
 
       var a2 = new Asteroid(this.game, this.center, this.size - 1);
-      a2.setVelocity({ x: 2, y: 2 });
       this.game.addBody(a2);
 
       var a3 = new Asteroid(this.game, this.center, this.size - 1);
-      a3.setVelocity({ x: -2, y: -2 });
       this.game.addBody(a3);
+      console.log(this.game.bodies);
     },
 
     die: function() {
@@ -52,10 +50,6 @@
 
       var i = this.game.bodies.indexOf(this);
       delete this.game.bodies[i];
-    },
-
-    setVelocity: function(velocity) {
-      this.velocity = velocity;
     },
 
     resetPoints: function() {
@@ -121,10 +115,14 @@
     }
   };
 
-  function randomVelocity() {
+  function randomSpeed() {
     var rand = Math.random();
     if (rand < 0.5) return -rand;
     return rand;
+  }
+
+  function randomAngle() {
+    return Math.random() * 360;
   }
 
   exports.Asteroid = Asteroid;
