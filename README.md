@@ -10,7 +10,5 @@ A very simplified Asteroids canvas game
 * Shoot bullets by pressing the spacebar
 * Objects wrap around the screen
 * Game over when the ship collides with an asteroid
-
-TODO
-====
-* Fix collision between asteroids and bullets
+* Large asteroids break up into three medium asteroids
+* Medium asteroids break up into three small asteroids
