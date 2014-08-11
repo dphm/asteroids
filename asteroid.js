@@ -1,6 +1,9 @@
 ;(function(exports) {
+
+  /* Constant: Angle of a full circle. */
   var FULL_ROTATION = 2 * Math.PI;
 
+  /* Constructor to create an asteroid body in game. */
   var Asteroid = function(game, center, size) {
     this.game = game;
     this.center = center;
@@ -11,19 +14,25 @@
     this.resetLineSegments();
   };
 
+  /* Prototype object - contains all asteroid methods. */
   Asteroid.prototype = {
+
+    /* Updates the position of the bullet's center, and resets points and lines based on new center. */
     update: function() {
       this.game.trig.translatePoint(this.center, this.speed, this.angle);
       this.resetPoints();
       this.resetLineSegments();
+      /* Off-screen asteroids wrap around the screen, back into the canvas. */
       this.game.wrapScreen(this);
     },
 
+    /* Draws the asteroid body on the screen. */
     draw: function(screen) {
       screen.lineWidth = 2;
       screen.strokeStyle = '#aaa';
       screen.fillStyle = '#000';
       screen.beginPath();
+      /* Draws a path containing all the points of the asteroid. */
       screen.moveTo(this.points[0].x, this.points[0].y);
       for (var i = 1; i < this.points.length; i++) {
         screen.lineTo(this.points[i].x, this.points[i].y);
@@ -33,6 +42,7 @@
       screen.fill();
     },
 
+    /* Creates three smaller asteroids of size n-1 where n is the size of the asteroid being destroyed. */
     spawn: function() {
       for (var i = 0; i < 3; i++) {
         this.game.addBody(new Asteroid(this.game, { x: this.center.x, y: this.center.y }, this.size - 1));
@@ -40,15 +50,17 @@
       console.log(this.game.bodies);
     },
 
+    /* Creates 3 smaller asteroids once an asteroid of size 3 and 2 die. Asteroids of size 1 do not spawn 
+    any new asteroids. Removes the destroyed asteroid from the game's list of bodies. */
     die: function() {
       if (this.size > 1) {
         this.spawn();
       }
-
       var i = this.game.bodies.indexOf(this);
       delete this.game.bodies[i];
     },
 
+    /* Represents the asteroid as a set of points specific to the asteroid's size. */
     resetPoints: function() {
       if (this.size === 3) {
         this.points = [
@@ -99,6 +111,7 @@
       
     },
 
+    /* Represents the asteroid as line segments; this is used in collision detection. */
     resetLineSegments: function() {
       this.lineSegments = [];
       var self = this;
@@ -112,12 +125,12 @@
     }
   };
 
+  /* Returns a random speed between 0 and 1. */
   function randomSpeed() {
-    var rand = Math.random();
-    if (rand < 0.5) return -rand;
-    return rand;
+    return Math.random();
   }
 
+  /* Returns a random speed between 0 and 1. Bodies with speed less than 0.5 travel right to left. */
   function randomAngle() {
     return Math.random() * FULL_ROTATION;
   }

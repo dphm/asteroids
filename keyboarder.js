@@ -1,4 +1,6 @@
 ;(function(exports) {
+  /* Keyboarder recognizes key presses and keeps track of the state of which keys are being pressed 
+     at the instant of "pressing." */
   var Keyboarder = function() {
     this.KEYS = {
       SPACE: 32,

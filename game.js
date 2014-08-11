@@ -1,4 +1,6 @@
 ;(function() {
+  /* Constructor for a game that takes in a canvas element and draws a game on the screen. The game keeps 
+  track of all living bodies. The initial game bodies are the ship and three asteroids. */
   var Game = function(canvas) {
     var self = this;
     var screen = canvas.getContext('2d');
@@ -13,44 +15,54 @@
       );
     }
 
+    /* Main game tick function - an infinite game loop. */
     var tick = function() {
+      /* Update game state. */ 
       self.update();
+      /* Draw game bodies. */
       self.draw(screen);
+      /* Add next tick to browser queue. */
       requestAnimationFrame(tick);
     };
-
+    /* Call up the first game tick. */
     tick();
   };
 
+  /* Prototype object - contains all game methods. */
   Game.prototype = {
+    /* Updates the state of the game. */
     update: function() {
       var self = this;
-
+      /* Checks for collisions between any two existant bodies. */
       self.bodies.forEach(function(b1) {
         self.bodies.forEach(function(b2) {
           if (self.colliding(b1, b2)) {
+            /* Kills the colliding bodies. */
             b1.die();
             b2.die();
           }
         });
-
+        /* Updates all the bodies. */
         b1.update();
       });
     },
 
+    /* Draws the game. */
     draw: function(screen) {
       screen.fillStyle = 'black';
       screen.fillRect(0, 0, this.size.x, this.size.y);
-
       this.bodies.map(function(body) {
         body.draw(screen);
       });
     },
 
+    /* Adds a body to the list of game bodies. */
     addBody: function(body) {
       this.bodies.push(body);
     },
 
+    /* Wraps bodies around the screen by moving the center of an offscreen body
+    to the other side of the screen while preserving the body's angle and speed. */
     wrapScreen: function(body) {
       var self = this;
       function wrapPoints() {
@@ -76,9 +88,9 @@
       }
     },
 
+    /* Checks if two bodies are colliding. */
     colliding: function(b1, b2) {
       var self = this;
-
       if (b1 instanceof Ship && b2 instanceof Asteroid ||
           b1 instanceof Asteroid && b2 instanceof Ship ||
           b1 instanceof Bullet && !(b2 instanceof Ship) ||
@@ -95,17 +107,19 @@
           }
         }
       }
-
       return false;
     },
 
+    /* Set of trig utility functions. */
     trig: {
+      /* Rotates a point about the center point by some angle. */
       rotatePoint: function(point, center, angle) {
         var p = { x: point.x, y: point.y };
         point.x = Math.cos(angle) * (p.x - center.x) - Math.sin(angle) * (p.y - center.y) + center.x;
         point.y = Math.sin(angle) * (p.x - center.x) + Math.cos(angle) * (p.y - center.y) + center.y;
       },
 
+      /* Maps rotatePoint on a set of points. */
       rotatePoints: function(points, center, angle) {
         var self = this;
         points.forEach(function(point) {
@@ -113,11 +127,13 @@
         });
       },
 
+      /* Moves a point with a certain speed and angle. */
       translatePoint: function(point, speed, angle) {
         point.x += speed * Math.cos(angle);
         point.y += speed * -Math.sin(angle);
       },
 
+      /* Maps translatePoint on a set of points. */
       translatePoints: function(points, speed, angle) {
         var self = this;
         points.forEach(function(point) {
@@ -125,6 +141,7 @@
         });
       },
 
+      /* Checks if point p is on infinite line l. */
       pointOnLine: function(p, l) {
         var A = l.p2.y - l.p1.y;
         var B = l.p1.x - l.p2.x;
@@ -136,6 +153,7 @@
         return this.pointInBounds(p, l) && d < e;
       },
 
+      /* Checks if point p is in line segment l. */
       pointInBounds: function(p, l) {
         var x = p.x;
         var y = p.y;
@@ -146,6 +164,7 @@
                y <= Math.max(l.p1.y, l.p2.y);
       },
 
+      /* Checks if lines l1 and l2 intersect. */
       lineIntersection: function(l1, l2) {
         var A1 = l1.p2.y - l1.p1.y;
         var B1 = l1.p1.x - l1.p2.x;
@@ -171,8 +190,10 @@
       }
     },
 
+    /* Draws the game over screen. */
     over: function() {
       var self = this;
+      /* Stops updating the game. */
       this.update = function() {};
       this.draw = function(screen) {
         screen.fillStyle = 'gray';
@@ -191,7 +212,7 @@
     }
   };
 
-  // Start game
+  /* Start game */
   window.onload = function() {
     var canvas = document.getElementById('screen');
     new Game(canvas);

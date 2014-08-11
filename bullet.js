@@ -1,6 +1,9 @@
 ;(function(exports) {
+
+  /* Constant: Angle of a full circle. */
   var FULL_ROTATION = 2 * Math.PI;
 
+  /* Constructor to create a bullet body in game. */
   var Bullet = function(center, angle, creator) {
     this.center = { x: center.x, y: center.y };
     this.radius = 1;
@@ -11,16 +14,20 @@
     this.resetLineSegments();
   };
 
+  /* Prototype object - where all bullet methods are defined. */
   Bullet.prototype = {
+    /* Updates the position of the bullet's center, and resets points and lines based on new center */
     update: function() {
       this.creator.game.trig.translatePoint(this.center, this.speed, this.angle);
       this.resetPoints();
       this.resetLineSegments();
+      /* Kills the bullet that leave the screen */
       if (this.offScreen()) {
         this.die();
       }
     },
 
+    /* Draws the bullet on the screen. */
     draw: function(screen) {
       screen.strokeStyle = 'white';
       screen.beginPath();
@@ -28,16 +35,20 @@
       screen.stroke();
     },
 
+    /* Removes the bullet from the game's list of bodies. */
     die: function() {
       var i = this.creator.game.bodies.indexOf(this);
       delete this.creator.game.bodies[i];
     },
 
+    /* Checks if the bullet's center is off screen */
     offScreen: function() {
       return this.center.x < 0 || this.center.x > this.creator.game.size.x ||
              this.center.y < 0 || this.center.y > this.creator.game.size.y;
     },
 
+    /* Represents the bullet as the path of the bullet from time t to t+1. This two-point representation is
+    necessary so collisions that occur between time t and t+1 are detected. */
     resetPoints: function() {
       this.points = [
         { x: this.center.x, y: this.center.y },
@@ -46,6 +57,7 @@
       ];
     },
 
+    /* Line segment representation used in the calculation of line intersection between times t and t+1. */
     resetLineSegments: function() {
       this.lineSegments = [{ p1: this.points[0], p2: this.points[1] }];
     }
