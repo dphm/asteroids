@@ -8,7 +8,7 @@
     this.game = game;
     this.center = center;
     this.angle = validAngle();
-    this.speed = 1;
+    this.speed = (4 - size) / 2;
     this.size = size;
     this.resetPoints();
     this.resetLineSegments();
