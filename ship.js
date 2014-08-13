@@ -11,7 +11,7 @@
     this.keyboarder = new Keyboarder();
     this.lastFired = 0;
     /* Create the ship in the center of the canvas. */
-    this.center = { x: game.size.x / 2, y: game.size.y / 2 };
+    this.resetCenter();
     this.resetPoints();
     this.resetLineSegments();
     /* Angle at which the ship is moving. Initialized to PI/2 */
@@ -66,7 +66,9 @@
 
     /* When the ship dies, the game is over. */
     die: function() {
+      this.resetCenter();
       this.lives--;
+      console.log('Ship dying', this.lives);
       if (this.lives === 0) {
         this.game.over();
       }
@@ -75,6 +77,11 @@
     /* This changes the angle of the ship's movement, and ensures that it is between 0 and 2 PI. */
     updateAngle: function(deltaAngle) {
       this.angle = (this.angle - deltaAngle) % FULL_ROTATION;
+    },
+
+    /* Moves center of the ship to the center of the screen. */
+    resetCenter: function() {
+      this.center = { x: this.game.size.x / 2, y: this.game.size.y / 2 };
     },
 
     /* Represents the ship as a set of points. */
