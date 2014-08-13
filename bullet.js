@@ -14,7 +14,7 @@
     this.resetLineSegments();
   };
 
-  /* Prototype object - where all bullet methods are defined. */
+  /* Prototype object - contains all bullet methods. */
   Bullet.prototype = {
     /* Updates the position of the bullet's center, and resets points and lines based on new center */
     update: function() {
