@@ -70,9 +70,27 @@
         body.draw(screen);
       });
 
+      for (var l = 0; l < this.lives; l++) {
+        var points = [
+          { x: 22.5       + 20 * l, y: 20 +   5 },
+          { x: 22.5 - 5   + 20 * l, y: 20 + 7.5 },
+          { x: 22.5       + 20 * l, y: 20 - 7.5 },
+          { x: 22.5 + 5.5 + 20 * l, y: 20 + 7.5 }
+        ];
+
+        screen.lineWidth = 1;
+        screen.strokeStyle = '#eee';
+        screen.beginPath();
+        screen.moveTo(points[0].x, points[0].y);
+        for (var i = 1; i < points.length; i++) {
+          screen.lineTo(points[i].x, points[i].y);
+        }
+        screen.closePath();
+        screen.stroke();
+      }
+
       screen.font = '16px Helvetica';
       screen.fillStyle = 'gray';
-      screen.fillText('lives: ' + this.lives, 15, 25);
       screen.fillText('score: ' + this.score, 15, 50);
     },
 
