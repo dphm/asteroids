@@ -6,13 +6,12 @@
     var screen = canvas.getContext('2d');
     this.size = { x: canvas.width, y: canvas.height };
 
-    this.lives = 3;
-    this.score = 0;
-    this.level = 1;
-
     this.bodies = [];
     this.addBody(new Ship(this));
     this.numberOfEnemies = 0;
+    this.lives = 3;
+    this.score = 0;
+    this.level = 1;
     this.startLevel();
 
     /* Main game tick function - an infinite game loop. */
