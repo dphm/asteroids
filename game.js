@@ -275,6 +275,11 @@
             this.bodies[i].draw(screen);
           }
         }
+
+        /* Draws the score and level. */
+        screen.font = '16px Helvetica';
+        screen.fillStyle = '#fdd284';
+        screen.fillText('score: ' + this.score, 250, 320);
       };
     }
   };
