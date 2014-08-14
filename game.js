@@ -53,11 +53,13 @@
         b1.update();
       });
 
+      /* Starts the next level if the current level has been completed. */
       if (this.levelCompleted()) {
         this.level++;
         this.startLevel();
       }
 
+      /* Ends the game if there are no lives left. */
       if (this.lives <= 0) {
         this.over();
       }
@@ -71,6 +73,7 @@
         body.draw(screen);
       });
 
+      /* Draws the ship lives. */
       for (var l = 0; l < this.lives; l++) {
         var points = [
           { x: 22.5       + 20 * l, y: 20 +   5 },
@@ -90,6 +93,7 @@
         screen.stroke();
       }
 
+      /* Draws the score and level. */
       screen.font = '16px Helvetica';
       screen.fillStyle = '#fdd284';
       screen.fillText('score: ' + this.score, 15, 50);
@@ -237,7 +241,9 @@
       }
     },
 
+    /* Starts a new level. */
     startLevel: function() {
+      /* Adds asteroids to the game list of bodies proportional to the level number. */
       for (var i = 0; i < this.level; i++) {
         this.addBody(
           new Asteroid(this, { x: Math.random() * this.size.x,
@@ -246,7 +252,7 @@
       }
     },
 
-    /* Checks if the level has been completed. The level is over when the ship is the only body left in the game. */
+    /* Checks if the level has been completed. */
     levelCompleted: function() {
       return this.numberOfEnemies === 0;
     },
