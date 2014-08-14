@@ -6,6 +6,8 @@
     var screen = canvas.getContext('2d');
     this.size = { x: canvas.width, y: canvas.height };
 
+    this.lives = 3;
+
     this.bodies = [];
     this.addBody(new Ship(this));
     for (var i = 0; i < 1; i++) {
@@ -53,6 +55,10 @@
         /* Updates all the bodies. */
         b1.update();
       });
+
+      if (this.lives <= 0) {
+        this.over();
+      }
     },
 
     /* Draws the game. */
@@ -62,6 +68,10 @@
       this.bodies.map(function(body) {
         body.draw(screen);
       });
+
+      screen.font = '16px Helvetica';
+      screen.fillStyle = 'gray';
+      screen.fillText('lives: ' + this.lives, 15, 25);
     },
 
     /* Adds a body to the list of game bodies. */

@@ -6,7 +6,6 @@
   /* Constructor to create a ship body in game. */
   var Ship = function(game) {
     this.game = game;
-    this.lives = 3;
     /* Create a keyboard object to track button presses. */
     this.keyboarder = new Keyboarder();
     this.lastFired = 0;
@@ -64,14 +63,15 @@
       screen.stroke();
     },
 
-    /* When the ship dies, the game is over. */
+    /* When the ship dies, the number of game lives is decremented and the ship is removed from the game list of bodies. */
     die: function() {
-      this.resetCenter();
-      this.lives--;
-      console.log('Ship dying', this.lives);
-      if (this.lives === 0) {
-        this.game.over();
+      this.game.lives--;
+      console.log('Lives:', this.game.lives);
+      if (this.game.lives > 0) {
+        this.game.addBody(new Ship(this.game));
       }
+      var i = this.game.bodies.indexOf(this);
+      delete this.game.bodies[i];
     },
 
     /* This changes the angle of the ship's movement, and ensures that it is between 0 and 2 PI. */
