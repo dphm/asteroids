@@ -29,8 +29,8 @@
     /* Draws the asteroid body on the screen. */
     draw: function(screen) {
       screen.lineWidth = 2;
-      screen.strokeStyle = '#aaa';
-      screen.fillStyle = '#000';
+      screen.strokeStyle = '#659893';
+      screen.fillStyle = '#504b6a';
       screen.beginPath();
       /* Draws a path containing all the points of the asteroid. */
       screen.moveTo(this.points[0].x, this.points[0].y);

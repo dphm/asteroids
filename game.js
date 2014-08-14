@@ -8,6 +8,7 @@
 
     this.lives = 3;
     this.score = 0;
+    this.level = 1;
 
     this.bodies = [];
     this.addBody(new Ship(this));
@@ -64,7 +65,7 @@
 
     /* Draws the game. */
     draw: function(screen) {
-      screen.fillStyle = 'black';
+      screen.fillStyle = '#504b6a';
       screen.fillRect(0, 0, this.size.x, this.size.y);
       this.bodies.map(function(body) {
         body.draw(screen);
@@ -79,7 +80,7 @@
         ];
 
         screen.lineWidth = 1;
-        screen.strokeStyle = '#eee';
+        screen.strokeStyle = '#c6ecec';
         screen.beginPath();
         screen.moveTo(points[0].x, points[0].y);
         for (var i = 1; i < points.length; i++) {
@@ -90,8 +91,9 @@
       }
 
       screen.font = '16px Helvetica';
-      screen.fillStyle = 'gray';
+      screen.fillStyle = '#eee';
       screen.fillText('score: ' + this.score, 15, 50);
+      screen.fillText('level: ' + this.level, 15, 70);
     },
 
     /* Adds a body to the list of game bodies. */
@@ -226,6 +228,11 @@
           }
         }
       }
+    },
+
+    /* Checks if the level has been completed. The level is over when the ship is the only body left in the game. */
+    levelCompleted: function() {
+      return this.bodies.length === 1 && this.bodies[0] instanceof Ship;
     },
 
     /* Draws the game over screen. */
