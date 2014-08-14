@@ -14,5 +14,9 @@ A very simplified Asteroids canvas game
 * Game over when all lives are lost
 * Large asteroids break up into three medium asteroids
 * Medium asteroids break up into three small asteroids
+* Smaller asteroids move more quickly
 * Levels with increasing number of asteroids
 * Level completed when all asteroids are destroyed
+* Large asteroids - 20 points
+* Medium asteroids - 50 points
+* Small asteroids - 100 points
