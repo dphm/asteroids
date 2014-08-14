@@ -56,6 +56,19 @@
       if (this.size > 1) {
         this.spawn();
       }
+
+      switch(this.size) {
+        case 3:
+          this.game.score += 20;
+          break;
+        case 2:
+          this.game.score += 50;
+          break;
+        case 1:
+          this.game.score += 100;
+          break;
+      }
+
       var i = this.game.bodies.indexOf(this);
       delete this.game.bodies[i];
     },

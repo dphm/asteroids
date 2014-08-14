@@ -7,6 +7,7 @@
     this.size = { x: canvas.width, y: canvas.height };
 
     this.lives = 3;
+    this.score = 0;
 
     this.bodies = [];
     this.addBody(new Ship(this));
@@ -72,6 +73,7 @@
       screen.font = '16px Helvetica';
       screen.fillStyle = 'gray';
       screen.fillText('lives: ' + this.lives, 15, 25);
+      screen.fillText('score: ' + this.score, 15, 50);
     },
 
     /* Adds a body to the list of game bodies. */
