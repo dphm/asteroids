@@ -92,7 +92,7 @@
       }
 
       screen.font = '16px Helvetica';
-      screen.fillStyle = '#eee';
+      screen.fillStyle = '#fdd284';
       screen.fillText('score: ' + this.score, 15, 50);
       screen.fillText('level: ' + this.level, 15, 70);
     },
@@ -258,7 +258,7 @@
       /* Stops updating the game. */
       this.update = function() {};
       this.draw = function(screen) {
-        screen.fillStyle = 'gray';
+        screen.fillStyle = '#659893';
         screen.fillRect(0, 0, this.size.x, this.size.y);
 
         screen.font = '20px Helvetica';
