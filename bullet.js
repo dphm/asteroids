@@ -37,8 +37,7 @@
 
     /* Removes the bullet from the game's list of bodies. */
     die: function() {
-      var i = this.creator.game.bodies.indexOf(this);
-      delete this.creator.game.bodies[i];
+      this.creator.game.removeBody(this);
     },
 
     /* Checks if the bullet's center is off screen */

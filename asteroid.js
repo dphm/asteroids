@@ -12,6 +12,7 @@
     this.size = size;
     this.resetPoints();
     this.resetLineSegments();
+    this.game.numberOfEnemies++;
   };
 
   /* Prototype object - contains all asteroid methods. */
@@ -47,7 +48,6 @@
       for (var i = 0; i < 3; i++) {
         this.game.addBody(new Asteroid(this.game, { x: this.center.x, y: this.center.y }, this.size - 1));
       }
-      console.log(this.game.bodies);
     },
 
     /* Creates 3 smaller asteroids once an asteroid of size 3 and 2 die. Asteroids of size 1 do not spawn 
@@ -69,8 +69,8 @@
           break;
       }
 
-      var i = this.game.bodies.indexOf(this);
-      delete this.game.bodies[i];
+      this.game.numberOfEnemies--;
+      this.game.removeBody(this);
     },
 
     /* Represents the asteroid as a set of points specific to the asteroid's size. */

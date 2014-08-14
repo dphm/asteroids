@@ -12,12 +12,8 @@
 
     this.bodies = [];
     this.addBody(new Ship(this));
-    for (var i = 0; i < 1; i++) {
-      this.addBody(
-        new Asteroid(this, { x: Math.random() * self.size.x,
-                             y: Math.random() * self.size.y }, 3)
-      );
-    }
+    this.numberOfEnemies = 0;
+    this.startLevel();
 
     /* Main game tick function - an infinite game loop. */
     var tick = function() {
@@ -58,6 +54,11 @@
         b1.update();
       });
 
+      if (this.levelCompleted()) {
+        this.level++;
+        this.startLevel();
+      }
+
       if (this.lives <= 0) {
         this.over();
       }
@@ -80,7 +81,7 @@
         ];
 
         screen.lineWidth = 1;
-        screen.strokeStyle = '#c6ecec';
+        screen.strokeStyle = '#acd268';
         screen.beginPath();
         screen.moveTo(points[0].x, points[0].y);
         for (var i = 1; i < points.length; i++) {
@@ -99,6 +100,13 @@
     /* Adds a body to the list of game bodies. */
     addBody: function(body) {
       this.bodies.push(body);
+    },
+
+    /* Removes a body from the list of game bodies. */
+    removeBody: function(body) {
+      var i = this.bodies.indexOf(body);
+      delete this.bodies[i];
+      // this.bodies.splice(i, i);
     },
 
     /* Wraps bodies around the screen by moving the center of an offscreen body
@@ -230,9 +238,18 @@
       }
     },
 
+    startLevel: function() {
+      for (var i = 0; i < this.level; i++) {
+        this.addBody(
+          new Asteroid(this, { x: Math.random() * this.size.x,
+                               y: Math.random() * this.size.y }, 3)
+        );
+      }
+    },
+
     /* Checks if the level has been completed. The level is over when the ship is the only body left in the game. */
     levelCompleted: function() {
-      return this.bodies.length === 1 && this.bodies[0] instanceof Ship;
+      return this.numberOfEnemies === 0;
     },
 
     /* Draws the game over screen. */

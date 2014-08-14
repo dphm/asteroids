@@ -28,7 +28,7 @@
       bodies to the game. */
       if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE) &&
           Date.now() - this.lastFired >= 300) {
-        var bullet = new Bullet(this.points[2], this.angle, this);
+        var bullet = new Bullet({ x: this.points[2].x, y: this.points[2].y }, this.angle, this);
         this.game.addBody(bullet);
         this.lastFired = Date.now();
       }
@@ -70,8 +70,7 @@
       if (this.game.lives > 0) {
         this.game.addBody(new Ship(this.game));
       }
-      var i = this.game.bodies.indexOf(this);
-      delete this.game.bodies[i];
+      this.game.removeBody(this);
     },
 
     /* This changes the angle of the ship's movement, and ensures that it is between 0 and 2 PI. */
