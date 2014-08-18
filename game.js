@@ -1,4 +1,7 @@
 ;(function() {
+  /* Constant: Number of points needed to earn a life. */
+  POINTS_TO_NEXT_LIFE = 10000;
+
   /* Constructor for a game that takes in a canvas element and draws a game on the screen. The game keeps 
   track of all living bodies. The initial game bodies are the ship and three asteroids. */
   var Game = function(canvas) {
@@ -11,6 +14,7 @@
     this.numberOfEnemies = 0;
     this.lives = 3;
     this.score = 0;
+    this.lastLife = 0;
     this.level = 1;
     this.startLevel();
 
@@ -257,9 +261,24 @@
       return this.numberOfEnemies === 0;
     },
 
+    /* Checks if player earned a life. One life is added for every 10,000 points. */
+    earnedLife: function() {
+      return this.score - this.lastLife >= POINTS_TO_NEXT_LIFE;
+    },
+
+    /* Increments the number of game lives. */
+    addLife: function() {
+      this.lives++;
+    },
+
     /* Adds points to the game score. */
     addToScore: function(points) {
       this.score += points;
+      /* Adds a life if it has been earned. */
+      if (this.earnedLife()) {
+        this.addLife();
+        this.lastLife = Math.round(this.score / POINTS_TO_NEXT_LIFE) * POINTS_TO_NEXT_LIFE;
+      }
     },
 
     /* Draws the game over screen. */
