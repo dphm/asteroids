@@ -20,3 +20,4 @@ A very simplified Asteroids canvas game
 * Large asteroids - 20 points
 * Medium asteroids - 50 points
 * Small asteroids - 100 points
+* One life earned every 10,000 points
