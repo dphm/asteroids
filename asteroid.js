@@ -59,13 +59,13 @@
 
       switch(this.size) {
         case 3:
-          this.game.score += 20;
+          this.game.addToScore(20);
           break;
         case 2:
-          this.game.score += 50;
+          this.game.addToScore(50);
           break;
         case 1:
-          this.game.score += 100;
+          this.game.addToScore(100);
           break;
       }
 

@@ -257,6 +257,11 @@
       return this.numberOfEnemies === 0;
     },
 
+    /* Adds points to the game score. */
+    addToScore: function(points) {
+      this.score += points;
+    },
+
     /* Draws the game over screen. */
     over: function() {
       var self = this;
