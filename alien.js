@@ -8,6 +8,8 @@
     this.resetPoints();
     this.resetLineSegments();
     this.game.numberOfEnemies++;
+
+    this.lastFired = 0;
   }
 
   Alien.prototype = {
@@ -18,6 +20,8 @@
 
       /* Off-screen aliens wrap around the screen, back into the canvas. */
       this.game.wrapScreen(this);
+
+      this.shoot();
     },
 
     draw: function(screen) {
@@ -104,6 +108,17 @@
           self.lineSegments.push({ p1: points[i], p2: points[0] });
         }
       });
+    },
+
+    shoot: function() {
+      var firingRate = this.size * 1000;
+      var firingThreshold = 0.7;
+      var now = Date.now();
+      if (now - this.lastFired >= firingRate && Math.random() >= firingThreshold) {
+        var bullet = new Bullet({ x: this.center.x, y: this.center.y }, this.game.randomAngle(), this);
+        this.game.addBody(bullet);
+        this.lastFired = now;
+      }
     }
   };
 
