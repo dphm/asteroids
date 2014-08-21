@@ -10,6 +10,7 @@
     /* Create a keyboard object to track button presses. */
     this.keyboarder = new Keyboarder();
     this.lastFired = 0;
+    this.lastWentIntoHyperspace = 0;
     
     /* Create the ship in the center of the canvas. */
     this.resetCenter();
@@ -53,6 +54,17 @@
       if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
         this.game.trig.translatePoint(this.center, this.maxLinearSpeed, this.angle);
         this.game.trig.translatePoints(this.points, this.maxLinearSpeed, this.angle);
+      }
+
+      /* If the down key is pressed, the ship is moved to a random point on the game screen.
+      Hyperspace can only be used every 3 seconds. */
+      if (this.keyboarder.isDown(this.keyboarder.KEYS.DOWN) &&
+          now - this.lastWentIntoHyperspace >= 3000) {
+        this.center = this.game.randomPoint();
+        this.resetPoints();
+        this.resetLineSegments();
+        this.game.trig.rotatePoints(this.points, this.center, -this.angle + Math.PI / 2);
+        this.lastWentIntoHyperspace = now;
       }
 
       /* When the ship goes off screen, it wraps around the screen back into the canvas. */
