@@ -1,7 +1,4 @@
 ;(function() {
-  /* Constant: Angle of a full circle. */
-  FULL_ROTATION = 2 * Math.PI;
-
   /* Constant: Number of points needed to earn a life. */
   POINTS_TO_NEXT_LIFE = 10000;
 
@@ -39,6 +36,8 @@
 
   /* Prototype object - contains all game methods. */
   Game.prototype = {
+    FULL_ROTATION: 2 * Math.PI,
+
     /* Updates the state of the game. */
     update: function() {
       var self = this;
@@ -247,7 +246,7 @@
 
     /* Returns a random speed between 0 and 1. Bodies with speed less than 0.5 travel right to left. */
     randomAngle: function() {
-      return Math.random() * FULL_ROTATION;
+      return Math.random() * this.FULL_ROTATION;
     },
 
     /* Returns a random angle, avoiding ranges that may cause an asteroid to loop forever on a horizontal or vertical axis. */

@@ -1,8 +1,4 @@
 ;(function(exports) {
-
-  /* Constant: Angle of a full circle. */
-  var FULL_ROTATION = 2 * Math.PI;
-
   /* Constructor to create a ship body in game. */
   function Ship(game) {
     this.game = game;
@@ -96,7 +92,7 @@
 
     /* This changes the angle of the ship's movement, and ensures that it is between 0 and 2 PI. */
     updateAngle: function(deltaAngle) {
-      this.angle = (this.angle - deltaAngle) % FULL_ROTATION;
+      this.angle = (this.angle - deltaAngle) % this.game.FULL_ROTATION;
     },
 
     /* Moves center of the ship to the center of the screen. */

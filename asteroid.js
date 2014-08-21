@@ -1,7 +1,4 @@
 ;(function(exports) {
-  /* Constant: Angle of a full circle. */
-  var FULL_ROTATION = 2 * Math.PI;
-
   /* Constructor to create an asteroid body in game. */
   function Asteroid(game, center, size) {
     this.game = game;
