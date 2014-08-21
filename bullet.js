@@ -1,9 +1,7 @@
 ;(function(exports) {
-  /* Constant: Angle of a full circle. */
-  var FULL_ROTATION = 2 * Math.PI;
-
   /* Constructor to create a bullet body in game. */
   function Bullet(center, angle, creator) {
+    this.game = creator.game;
     this.center = { x: center.x, y: center.y };
     this.radius = 1;
     this.angle = angle;
@@ -17,10 +15,10 @@
   Bullet.prototype = {
     /* Updates the position of the bullet's center, and resets points and lines based on new center */
     update: function() {
-      this.creator.game.trig.translatePoint(this.center, this.speed, this.angle);
+      this.game.trig.translatePoint(this.center, this.speed, this.angle);
       this.resetPoints();
       this.resetLineSegments();
-      
+
       /* Kills the bullet that leave the screen */
       if (this.offScreen()) {
         this.die();
@@ -31,19 +29,19 @@
     draw: function(screen) {
       screen.strokeStyle = 'white';
       screen.beginPath();
-      screen.arc(this.center.x, this.center.y, this.radius, 0, FULL_ROTATION);
+      screen.arc(this.center.x, this.center.y, this.radius, 0, this.game.FULL_ROTATION);
       screen.stroke();
     },
 
     /* Removes the bullet from the game's list of bodies. */
     die: function() {
-      this.creator.game.removeBody(this);
+      this.game.removeBody(this);
     },
 
     /* Checks if the bullet's center is off screen */
     offScreen: function() {
-      return this.center.x < 0 || this.center.x > this.creator.game.size.x ||
-             this.center.y < 0 || this.center.y > this.creator.game.size.y;
+      return this.center.x < 0 || this.center.x > this.game.size.x ||
+             this.center.y < 0 || this.center.y > this.game.size.y;
     },
 
     /* Represents the bullet as the path of the bullet from time t to t+1. This two-point representation is
