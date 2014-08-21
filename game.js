@@ -150,7 +150,6 @@
 
     /* Checks if two bodies are colliding. */
     colliding: function(b1, b2) {
-      var self = this;
       if (b1 instanceof Ship && b2 instanceof Asteroid ||
           b1 instanceof Asteroid && b2 instanceof Ship ||
           b1 instanceof Bullet && !(b2 instanceof Ship) ||
@@ -159,7 +158,7 @@
         var lines2 = b2.lineSegments;
         for (var i = 0; i < lines1.length; i++) {
           for (var j = 0; j < lines2.length; j++) {
-            var intersection = self.trig.lineIntersection(lines1[i], lines2[j]);
+            var intersection = this.trig.lineIntersection(lines1[i], lines2[j]);
             if (intersection) {
               console.log(intersection);
               return true;
@@ -208,8 +207,6 @@
 
     /* Draws the game over screen. */
     over: function() {
-      var self = this;
-      
       /* Stops updating the game. */
       this.update = function() {};
       this.draw = function(screen) {
