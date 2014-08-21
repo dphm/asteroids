@@ -1,4 +1,7 @@
 ;(function() {
+  /* Constant: Angle of a full circle. */
+  FULL_ROTATION = 2 * Math.PI;
+
   /* Constant: Number of points needed to earn a life. */
   POINTS_TO_NEXT_LIFE = 10000;
 
@@ -230,10 +233,44 @@
       };
     },
 
+    /* Returns a random point on the game screen. */
     randomPoint: function() {
       var randX = Math.random() * this.size.x;
       var randY = Math.random() * this.size.y;
       return { x: randX, y: randY };
+    },
+
+    /* Returns a random speed between 0 and 1. */
+    randomSpeed: function() {
+      return Math.random();
+    },
+
+    /* Returns a random speed between 0 and 1. Bodies with speed less than 0.5 travel right to left. */
+    randomAngle: function() {
+      return Math.random() * FULL_ROTATION;
+    },
+
+    /* Returns a random angle, avoiding ranges that may cause an asteroid to loop forever on a horizontal or vertical axis. */
+    validAngle: function() {
+      /* Returns true if the given angle is in a bad range. */
+      function inBadRange(angle) {
+        var e = Math.PI / 36;
+        var badRanges = [[0, 0 + e],
+                         [Math.PI / 2 - e, Math.PI / 2 + e],
+                         [Math.PI - e, Math.PI + e],
+                         [3 * Math.PI / 2 - e, 3 * Math.PI / 2 + e],
+                         [2 * Math.PI - e, 2 * Math.PI]];
+        return badRanges.some(function(range) {
+          return angle >= range[0] && angle <= range[1];
+        });
+      }
+
+      /* Ensures that the angle returned is not in a bad range. */
+      var angle = 0;
+      do {
+        angle = this.randomAngle();
+      } while (inBadRange(angle))
+      return angle;
     },
 
     /* Set of trig utility functions. */

@@ -6,7 +6,7 @@
   function Asteroid(game, center, size) {
     this.game = game;
     this.center = center;
-    this.angle = validAngle();
+    this.angle = game.validAngle();
     this.speed = (4 - size) / 2;
     this.size = size;
     this.resetPoints();
@@ -138,39 +138,6 @@
       });
     }
   };
-
-  /* Returns a random speed between 0 and 1. */
-  function randomSpeed() {
-    return Math.random();
-  }
-
-  /* Returns a random speed between 0 and 1. Bodies with speed less than 0.5 travel right to left. */
-  function randomAngle() {
-    return Math.random() * FULL_ROTATION;
-  }
-
-  /* Returns a random angle, avoiding ranges that may cause an asteroid to loop forever on a horizontal or vertical axis. */
-  function validAngle() {
-    /* Returns true if the given angle is in a bad range. */
-    function inBadRange(angle) {
-      var e = Math.PI / 36;
-      var badRanges = [[0, 0 + e],
-                       [Math.PI / 2 - e, Math.PI / 2 + e],
-                       [Math.PI - e, Math.PI + e],
-                       [3 * Math.PI / 2 - e, 3 * Math.PI / 2 + e],
-                       [2 * Math.PI - e, 2 * Math.PI]];
-      return badRanges.some(function(range) {
-        return angle >= range[0] && angle <= range[1];
-      });
-    }
-    
-    /* Ensures that the angle returned is not in a bad range. */
-    var angle = 0;
-    do {
-      angle = randomAngle();
-    } while (inBadRange(angle))
-    return angle;
-  }
 
   exports.Asteroid = Asteroid;
 })(this);
