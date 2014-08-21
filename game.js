@@ -170,8 +170,7 @@
       /* Adds asteroids to the game list of bodies proportional to the level number. */
       for (var i = 0; i < this.level; i++) {
         this.addBody(
-          new Asteroid(this, { x: Math.random() * this.size.x,
-                               y: Math.random() * this.size.y }, 3)
+          new Asteroid(this, this.randomPoint(), 3)
         );
       }
     },
@@ -225,6 +224,12 @@
         screen.fillStyle = '#fdd284';
         screen.fillText('score: ' + this.score, 250, 320);
       };
+    },
+
+    randomPoint: function() {
+      var randX = Math.random() * this.size.x;
+      var randY = Math.random() * this.size.y;
+      return { x: randX, y: randY };
     },
 
     /* Set of trig utility functions. */
