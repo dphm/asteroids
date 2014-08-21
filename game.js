@@ -165,6 +165,68 @@
       return false;
     },
 
+    /* Starts a new level. */
+    startLevel: function() {
+      /* Adds asteroids to the game list of bodies proportional to the level number. */
+      for (var i = 0; i < this.level; i++) {
+        this.addBody(
+          new Asteroid(this, { x: Math.random() * this.size.x,
+                               y: Math.random() * this.size.y }, 3)
+        );
+      }
+    },
+
+    /* Checks if the level has been completed. */
+    levelCompleted: function() {
+      return this.numberOfEnemies === 0;
+    },
+
+    /* Adds points to the game score. */
+    addToScore: function(points) {
+      this.score += points;
+      /* Adds a life if it has been earned. */
+      if (this.earnedLife()) {
+        this.addLife();
+        this.lastLife = Math.round(this.score / POINTS_TO_NEXT_LIFE) * POINTS_TO_NEXT_LIFE;
+      }
+    },
+
+    /* Checks if player earned a life. One life is added for every 10,000 points. */
+    earnedLife: function() {
+      return this.score - this.lastLife >= POINTS_TO_NEXT_LIFE;
+    },
+
+    /* Increments the number of game lives. */
+    addLife: function() {
+      this.lives++;
+    },
+
+    /* Draws the game over screen. */
+    over: function() {
+      var self = this;
+      /* Stops updating the game. */
+      this.update = function() {};
+      this.draw = function(screen) {
+        screen.fillStyle = '#659893';
+        screen.fillRect(0, 0, this.size.x, this.size.y);
+
+        screen.font = '20px Helvetica';
+        screen.fillStyle = 'white';
+        screen.fillText('game over', 250, 300);
+
+        for (var i = 0; i < this.bodies.length; i++) {
+          if (this.bodies[i] instanceof Ship) {
+            this.bodies[i].draw(screen);
+          }
+        }
+
+        /* Draws the score and level. */
+        screen.font = '16px Helvetica';
+        screen.fillStyle = '#fdd284';
+        screen.fillText('score: ' + this.score, 250, 320);
+      };
+    },
+
     /* Set of trig utility functions. */
     trig: {
       /* Rotates a point about the center point by some angle. */
@@ -243,68 +305,6 @@
           }
         }
       }
-    },
-
-    /* Starts a new level. */
-    startLevel: function() {
-      /* Adds asteroids to the game list of bodies proportional to the level number. */
-      for (var i = 0; i < this.level; i++) {
-        this.addBody(
-          new Asteroid(this, { x: Math.random() * this.size.x,
-                               y: Math.random() * this.size.y }, 3)
-        );
-      }
-    },
-
-    /* Checks if the level has been completed. */
-    levelCompleted: function() {
-      return this.numberOfEnemies === 0;
-    },
-
-    /* Checks if player earned a life. One life is added for every 10,000 points. */
-    earnedLife: function() {
-      return this.score - this.lastLife >= POINTS_TO_NEXT_LIFE;
-    },
-
-    /* Increments the number of game lives. */
-    addLife: function() {
-      this.lives++;
-    },
-
-    /* Adds points to the game score. */
-    addToScore: function(points) {
-      this.score += points;
-      /* Adds a life if it has been earned. */
-      if (this.earnedLife()) {
-        this.addLife();
-        this.lastLife = Math.round(this.score / POINTS_TO_NEXT_LIFE) * POINTS_TO_NEXT_LIFE;
-      }
-    },
-
-    /* Draws the game over screen. */
-    over: function() {
-      var self = this;
-      /* Stops updating the game. */
-      this.update = function() {};
-      this.draw = function(screen) {
-        screen.fillStyle = '#659893';
-        screen.fillRect(0, 0, this.size.x, this.size.y);
-
-        screen.font = '20px Helvetica';
-        screen.fillStyle = 'white';
-        screen.fillText('game over', 250, 300);
-
-        for (var i = 0; i < this.bodies.length; i++) {
-          if (this.bodies[i] instanceof Ship) {
-            this.bodies[i].draw(screen);
-          }
-        }
-
-        /* Draws the score and level. */
-        screen.font = '16px Helvetica';
-        screen.fillStyle = '#fdd284';
-        screen.fillText('score: ' + this.score, 250, 320);
-      };
     }
   };
 
