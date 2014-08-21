@@ -4,7 +4,7 @@
   var FULL_ROTATION = 2 * Math.PI;
 
   /* Constructor to create an asteroid body in game. */
-  var Asteroid = function(game, center, size) {
+  function Asteroid(game, center, size) {
     this.game = game;
     this.center = center;
     this.angle = validAngle();
@@ -13,7 +13,7 @@
     this.resetPoints();
     this.resetLineSegments();
     this.game.numberOfEnemies++;
-  };
+  }
 
   /* Prototype object - contains all asteroid methods. */
   Asteroid.prototype = {

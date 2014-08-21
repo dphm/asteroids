@@ -4,7 +4,7 @@
   var FULL_ROTATION = 2 * Math.PI;
 
   /* Constructor to create a ship body in game. */
-  var Ship = function(game) {
+  function Ship(game) {
     this.game = game;
     /* Create a keyboard object to track button presses. */
     this.keyboarder = new Keyboarder();
@@ -18,7 +18,7 @@
     /* The difference in angle for every left or right keypress. */
     this.deltaAngle = 5 * Math.PI / 180;
     this.maxLinearSpeed = 4;
-  };
+  }
 
   /* Prototype object - contains all ship methods. */
   Ship.prototype = {

@@ -1,7 +1,7 @@
 ;(function(exports) {
   /* Keyboarder recognizes key presses and keeps track of the state of which keys are being pressed 
      at the instant of "pressing." */
-  var Keyboarder = function() {
+  function Keyboarder() {
     this.KEYS = {
       SPACE: 32,
       LEFT: 37,
@@ -23,7 +23,7 @@
     this.isDown = function(keyCode) {
       return keyState[keyCode];
     };
-  };
+  }
 
   exports.Keyboarder = Keyboarder;
 })(this);

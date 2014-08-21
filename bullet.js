@@ -4,7 +4,7 @@
   var FULL_ROTATION = 2 * Math.PI;
 
   /* Constructor to create a bullet body in game. */
-  var Bullet = function(center, angle, creator) {
+  function Bullet(center, angle, creator) {
     this.center = { x: center.x, y: center.y };
     this.radius = 1;
     this.angle = angle;
@@ -12,7 +12,7 @@
     this.creator = creator;
     this.resetPoints();
     this.resetLineSegments();
-  };
+  }
 
   /* Prototype object - contains all bullet methods. */
   Bullet.prototype = {
