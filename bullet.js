@@ -1,5 +1,4 @@
 ;(function(exports) {
-
   /* Constant: Angle of a full circle. */
   var FULL_ROTATION = 2 * Math.PI;
 
@@ -21,6 +20,7 @@
       this.creator.game.trig.translatePoint(this.center, this.speed, this.angle);
       this.resetPoints();
       this.resetLineSegments();
+      
       /* Kills the bullet that leave the screen */
       if (this.offScreen()) {
         this.die();

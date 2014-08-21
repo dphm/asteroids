@@ -1,5 +1,4 @@
 ;(function(exports) {
-
   /* Constant: Angle of a full circle. */
   var FULL_ROTATION = 2 * Math.PI;
 
@@ -17,12 +16,12 @@
 
   /* Prototype object - contains all asteroid methods. */
   Asteroid.prototype = {
-
     /* Updates the position of the bullet's center, and resets points and lines based on new center. */
     update: function() {
       this.game.trig.translatePoint(this.center, this.speed, this.angle);
       this.resetPoints();
       this.resetLineSegments();
+
       /* Off-screen asteroids wrap around the screen, back into the canvas. */
       this.game.wrapScreen(this);
     },
@@ -33,11 +32,13 @@
       screen.strokeStyle = '#659893';
       screen.fillStyle = '#504b6a';
       screen.beginPath();
+
       /* Draws a path containing all the points of the asteroid. */
       screen.moveTo(this.points[0].x, this.points[0].y);
       for (var i = 1; i < this.points.length; i++) {
         screen.lineTo(this.points[i].x, this.points[i].y);
       }
+
       screen.closePath();
       screen.stroke();
       screen.fill();
@@ -162,6 +163,7 @@
         return angle >= range[0] && angle <= range[1];
       });
     }
+    
     /* Ensures that the angle returned is not in a bad range. */
     var angle = 0;
     do {

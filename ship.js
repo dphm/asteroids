@@ -6,15 +6,19 @@
   /* Constructor to create a ship body in game. */
   function Ship(game) {
     this.game = game;
+
     /* Create a keyboard object to track button presses. */
     this.keyboarder = new Keyboarder();
     this.lastFired = 0;
+    
     /* Create the ship in the center of the canvas. */
     this.resetCenter();
     this.resetPoints();
     this.resetLineSegments();
+    
     /* Angle at which the ship is moving. Initialized to PI/2 */
     this.angle = Math.PI / 2;
+    
     /* The difference in angle for every left or right keypress. */
     this.deltaAngle = 5 * Math.PI / 180;
     this.maxLinearSpeed = 4;
@@ -32,6 +36,7 @@
         this.game.addBody(bullet);
         this.lastFired = Date.now();
       }
+
       /* If left key is pressed, the ship angle is rotated counter-clockwise, indicated by a negative deltaAngle.
       Else, if the right key is pressed, the ship angle is rotated clockwise, indicated by a positive deltaAngle. */
       if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
@@ -41,11 +46,13 @@
         this.updateAngle(this.deltaAngle);
         this.game.trig.rotatePoints(this.points, this.center, this.deltaAngle);
       }
+
       /* If the up key is pressed, the ship moves forward with the the maxLinearSpeed and angle. */
       if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
         this.game.trig.translatePoint(this.center, this.maxLinearSpeed, this.angle);
         this.game.trig.translatePoints(this.points, this.maxLinearSpeed, this.angle);
-      } 
+      }
+
       /* When the ship goes off screen, it wraps around the screen back into the canvas. */
       this.game.wrapScreen(this);
     },

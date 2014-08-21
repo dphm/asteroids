@@ -22,12 +22,15 @@
     function tick() {
       /* Update game state. */ 
       self.update();
+
       /* Draw game bodies. */
       self.draw(screen);
+
       /* Add next tick to browser queue. */
       requestAnimationFrame(tick);
     }
-    /* Call up the first game tick. */
+
+    /* Call the first game tick. */
     tick();
   }
 
@@ -36,6 +39,7 @@
     /* Updates the state of the game. */
     update: function() {
       var self = this;
+
       /* Checks for collisions between any two existant bodies. */
       self.bodies.forEach(function(b1) {
         self.bodies.forEach(function(b2) {
@@ -53,6 +57,7 @@
             }
           }
         });
+
         /* Updates all the bodies. */
         b1.update();
       });
@@ -183,6 +188,7 @@
     /* Adds points to the game score. */
     addToScore: function(points) {
       this.score += points;
+
       /* Adds a life if it has been earned. */
       if (this.earnedLife()) {
         this.addLife();
@@ -203,6 +209,7 @@
     /* Draws the game over screen. */
     over: function() {
       var self = this;
+      
       /* Stops updating the game. */
       this.update = function() {};
       this.draw = function(screen) {
