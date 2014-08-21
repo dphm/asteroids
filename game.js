@@ -152,10 +152,12 @@
 
     /* Checks if two bodies are colliding. */
     colliding: function(b1, b2) {
-      if (b1 instanceof Ship && b2 instanceof Asteroid ||
-          b1 instanceof Asteroid && b2 instanceof Ship ||
-          b1 instanceof Bullet && !(b2 instanceof Ship) ||
-          !(b1 instanceof Ship) && b2 instanceof Bullet) {
+      if (b1 instanceof Ship     && b2 instanceof Asteroid ||
+          b1 instanceof Asteroid && b2 instanceof Ship     ||
+          b1 instanceof Ship     && b2 instanceof Alien    ||
+          b1 instanceof Alien    && b2 instanceof Ship     ||
+          b1 instanceof Bullet   && !(b2 instanceof Ship)  ||
+          !(b1 instanceof Ship)  && b2 instanceof Bullet) {
         var lines1 = b1.lineSegments;
         var lines2 = b2.lineSegments;
         for (var i = 0; i < lines1.length; i++) {
@@ -179,6 +181,8 @@
           new Asteroid(this, this.randomPoint(), 3)
         );
       }
+      this.addBody(new Alien(this, 2));
+      this.addBody(new Alien(this, 1));
     },
 
     /* Checks if the level has been completed. */
