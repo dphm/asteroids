@@ -28,13 +28,15 @@
   Ship.prototype = {
     /* Updates the position of the ship's center, and resets points and lines based on new center. */
     update: function() {
+      var now = Date.now();
+
       /* If the space bar is pressed, then the user can fire every .3 seconds. This adds bullet 
       bodies to the game. */
       if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE) &&
-          Date.now() - this.lastFired >= 300) {
+          now - this.lastFired >= 300) {
         var bullet = new Bullet({ x: this.points[2].x, y: this.points[2].y }, this.angle, this);
         this.game.addBody(bullet);
-        this.lastFired = Date.now();
+        this.lastFired = now;
       }
 
       /* If left key is pressed, the ship angle is rotated counter-clockwise, indicated by a negative deltaAngle.
