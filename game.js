@@ -195,8 +195,10 @@
         );
       }
 
-      this.addBody(new Alien(this, 2));
-      this.addBody(new Alien(this, 1));
+      if (this.level > 1) {
+        this.addBody(new Alien(this, 2));
+        this.addBody(new Alien(this, 1));
+      }
     },
 
     /* Checks if the level has been completed. */
