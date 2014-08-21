@@ -1,7 +1,7 @@
 ;(function(exports) {
   function Alien(game, size) {
     this.game = game;
-    this.color = '#fdd284';
+    this.color = game.COLORS.YELLOW;
     this.angle = game.validAngle();
     this.speed = 3 - size;
     this.center = game.randomPoint();
@@ -113,7 +113,7 @@
 
     shoot: function() {
       var firingRate = this.size * 1000;
-      var firingThreshold = 0.7;
+      var firingThreshold = 0.5;
       var now = Date.now();
       if (now - this.lastFired >= firingRate && Math.random() >= firingThreshold) {
         var bullet = new Bullet({ x: this.center.x, y: this.center.y }, this.game.randomAngle(), this);

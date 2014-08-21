@@ -2,7 +2,7 @@
   /* Constructor to create an asteroid body in game. */
   function Asteroid(game, center, size) {
     this.game = game;
-    this.color = '#659893';
+    this.color = game.COLORS.TEAL;
     this.center = center;
     this.angle = game.validAngle();
     this.speed = (4 - size) / 2;

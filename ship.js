@@ -2,7 +2,7 @@
   /* Constructor to create a ship body in game. */
   function Ship(game) {
     this.game = game;
-    this.color = '#acd268';
+    this.color = game.COLORS.GREEN;
 
     /* Create a keyboard object to track button presses. */
     this.keyboarder = new Keyboarder();

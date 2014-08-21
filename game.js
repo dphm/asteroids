@@ -8,7 +8,7 @@
     var self = this;
     var screen = canvas.getContext('2d');
     this.size = { x: canvas.width, y: canvas.height };
-    this.color = '#504b6a';
+    this.color = this.COLORS.PURPLE;
     this.bodies = [];
     this.addBody(new Ship(this));
     this.numberOfEnemies = 0;
@@ -36,7 +36,16 @@
 
   /* Prototype object - contains all game methods. */
   Game.prototype = {
+    /* Constant: Angle of a full circle. */
     FULL_ROTATION: 2 * Math.PI,
+
+    /* Constants: Color scheme. */
+    COLORS: {
+      PURPLE: '#504b6a',
+      TEAL:   '#659893',
+      GREEN:  '#acd268',
+      YELLOW: '#fdd284'
+    },
 
     /* Updates the state of the game. */
     update: function() {
@@ -94,7 +103,7 @@
         ];
 
         screen.lineWidth = 1;
-        screen.strokeStyle = '#acd268';
+        screen.strokeStyle = this.COLORS.GREEN;
         screen.beginPath();
         screen.moveTo(points[0].x, points[0].y);
         for (var i = 1; i < points.length; i++) {
@@ -106,7 +115,7 @@
 
       /* Draws the score and level. */
       screen.font = '16px Helvetica';
-      screen.fillStyle = '#fdd284';
+      screen.fillStyle = this.COLORS.YELLOW;
       screen.fillText('score: ' + this.score, 15, 50);
       screen.fillText('level: ' + this.level, 15, 70);
     },
@@ -185,6 +194,7 @@
           new Asteroid(this, this.randomPoint(), 3)
         );
       }
+
       this.addBody(new Alien(this, 2));
       this.addBody(new Alien(this, 1));
     },
@@ -220,7 +230,7 @@
       /* Stops updating the game. */
       this.update = function() {};
       this.draw = function(screen) {
-        screen.fillStyle = '#659893';
+        screen.fillStyle = this.COLORS.TEAL;
         screen.fillRect(0, 0, this.size.x, this.size.y);
 
         screen.font = '20px Helvetica';
@@ -235,7 +245,7 @@
 
         /* Draws the score and level. */
         screen.font = '16px Helvetica';
-        screen.fillStyle = '#fdd284';
+        screen.fillStyle = this.COLORS.YELLOW;
         screen.fillText('score: ' + this.score, 250, 320);
       };
     },
