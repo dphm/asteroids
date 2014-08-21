@@ -2,6 +2,7 @@
   /* Constructor to create a ship body in game. */
   function Ship(game) {
     this.game = game;
+    this.color = '#acd268';
 
     /* Create a keyboard object to track button presses. */
     this.keyboarder = new Keyboarder();
@@ -70,7 +71,7 @@
     /* Draws the asteroid body on the screen. */
     draw: function(screen) {
       screen.lineWidth = 1;
-      screen.strokeStyle = '#acd268';
+      screen.strokeStyle = this.color;
       screen.beginPath();
       screen.moveTo(this.points[0].x, this.points[0].y);
       for (var i = 1; i < this.points.length; i++) {

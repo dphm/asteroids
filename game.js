@@ -8,7 +8,7 @@
     var self = this;
     var screen = canvas.getContext('2d');
     this.size = { x: canvas.width, y: canvas.height };
-
+    this.color = '#504b6a';
     this.bodies = [];
     this.addBody(new Ship(this));
     this.numberOfEnemies = 0;
@@ -78,7 +78,7 @@
 
     /* Draws the game. */
     draw: function(screen) {
-      screen.fillStyle = '#504b6a';
+      screen.fillStyle = this.color;
       screen.fillRect(0, 0, this.size.x, this.size.y);
       this.bodies.map(function(body) {
         body.draw(screen);

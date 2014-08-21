@@ -2,6 +2,7 @@
   /* Constructor to create an asteroid body in game. */
   function Asteroid(game, center, size) {
     this.game = game;
+    this.color = '#659893';
     this.center = center;
     this.angle = game.validAngle();
     this.speed = (4 - size) / 2;
@@ -26,8 +27,8 @@
     /* Draws the asteroid body on the screen. */
     draw: function(screen) {
       screen.lineWidth = 2;
-      screen.strokeStyle = '#659893';
-      screen.fillStyle = '#504b6a';
+      screen.strokeStyle = this.color;
+      screen.fillStyle = this.game.color;
       screen.beginPath();
 
       /* Draws a path containing all the points of the asteroid. */

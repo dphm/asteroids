@@ -1,6 +1,7 @@
 ;(function(exports) {
   function Alien(game, size) {
     this.game = game;
+    this.color = '#fdd284';
     this.angle = game.validAngle();
     this.speed = 3 - size;
     this.center = game.randomPoint();
@@ -28,8 +29,8 @@
       var domeControl = { x: this.center.x, y: this.center.y - 25 };
 
       screen.lineWidth = 2;
-      screen.strokeStyle = '#fdd284';
-      screen.fillStyle = '#504b6a';
+      screen.strokeStyle = this.color;
+      screen.fillStyle = this.game.color;
 
       screen.beginPath();
       screen.moveTo(this.points[0].x, this.points[0].y);

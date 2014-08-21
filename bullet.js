@@ -2,6 +2,7 @@
   /* Constructor to create a bullet body in game. */
   function Bullet(center, angle, creator) {
     this.game = creator.game;
+    this.color = creator.color;
     this.center = { x: center.x, y: center.y };
     this.radius = 1;
     this.angle = angle;
@@ -27,7 +28,7 @@
 
     /* Draws the bullet on the screen. */
     draw: function(screen) {
-      screen.strokeStyle = 'white';
+      screen.strokeStyle = this.color;
       screen.beginPath();
       screen.arc(this.center.x, this.center.y, this.radius, 0, this.game.FULL_ROTATION);
       screen.stroke();
