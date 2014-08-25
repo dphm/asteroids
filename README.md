@@ -3,7 +3,7 @@ Asteroids
 
 An Atari Asteroids clone written in JavaScript
 
-![Asteroids](http://i.imgur.com/BEuBs4j.png)
+![Asteroids](http://i.imgur.com/ytuPsUR.png)
 
 Controls
 ========
