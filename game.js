@@ -369,6 +369,39 @@
             return intersection;
           }
         }
+      },
+
+      /* Returns the coordinates of the given point relative to the given origin. */
+      relativeCoordinates: function(origin, point) {
+        return { x: point.x - origin.x, y: point.y - origin.y };
+      },
+
+      /* Returns the quadrant of the given relative point. */
+      relativeQuadrant: function(relativePoint) {
+        if (relativePoint.y <= 0) {
+          return relativePoint.x <= 0 ? 2 : 1;
+        } else {
+          return relativePoint.x <= 0 ? 3 : 4;
+        }
+      },
+
+      /* Returns the angle from the origin to the point in radians. */
+      angleToPoint: function(origin, point) {
+        var rel = this.relativeCoordinates(origin, point);
+        var quadrant = this.relativeQuadrant(rel);
+        var angle = Math.atan(-rel.y / rel.x);
+        switch (quadrant) {
+          case 1:
+            return angle;
+          case 2:
+            return angle + Math.PI;
+          case 3:
+            return angle + Math.PI;
+          case 4:
+            return angle + 2 * Math.PI;
+          default:
+            return Game.prototype.randomAngle();
+        }
       }
     }
   };
