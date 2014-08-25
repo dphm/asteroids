@@ -17,9 +17,9 @@
     /* Angle at which the ship is moving. Initialized to PI/2 */
     this.angle = Math.PI / 2;
     
-    /* The difference in angle for every left or right keypress. */
-    this.deltaAngle = 5 * Math.PI / 180;
-    this.maxLinearSpeed = 4;
+    /* Movement constants. */
+    this.DELTA_ANGLE = 5 * Math.PI / 180;
+    this.MAX_LINEAR_SPEED = 4;
   }
 
   /* Prototype object - contains all ship methods. */
@@ -37,20 +37,20 @@
         this.lastFired = now;
       }
 
-      /* If left key is pressed, the ship angle is rotated counter-clockwise, indicated by a negative deltaAngle.
-      Else, if the right key is pressed, the ship angle is rotated clockwise, indicated by a positive deltaAngle. */
+      /* If left key is pressed, the ship angle is rotated counter-clockwise, indicated by a negative DELTA_ANGLE.
+      Else, if the right key is pressed, the ship angle is rotated clockwise, indicated by a positive DELTA_ANGLE. */
       if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
-        this.updateAngle(-this.deltaAngle);
-        this.game.trig.rotatePoints(this.points, this.center, -this.deltaAngle);
+        this.updateAngle(-this.DELTA_ANGLE);
+        this.game.trig.rotatePoints(this.points, this.center, -this.DELTA_ANGLE);
       } else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
-        this.updateAngle(this.deltaAngle);
-        this.game.trig.rotatePoints(this.points, this.center, this.deltaAngle);
+        this.updateAngle(this.DELTA_ANGLE);
+        this.game.trig.rotatePoints(this.points, this.center, this.DELTA_ANGLE);
       }
 
-      /* If the up key is pressed, the ship moves forward with the the maxLinearSpeed and angle. */
+      /* If the up key is pressed, the ship moves forward with the the MAX_LINEAR_SPEED and angle. */
       if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
-        this.game.trig.translatePoint(this.center, this.maxLinearSpeed, this.angle);
-        this.game.trig.translatePoints(this.points, this.maxLinearSpeed, this.angle);
+        this.game.trig.translatePoint(this.center, this.MAX_LINEAR_SPEED, this.angle);
+        this.game.trig.translatePoints(this.points, this.MAX_LINEAR_SPEED, this.angle);
       }
 
       /* If the down key is pressed, the ship is moved to a random point on the game screen.
