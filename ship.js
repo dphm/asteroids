@@ -50,23 +50,22 @@
         this.game.trig.rotatePoints(this.points, this.center, this.DELTA_ANGLE);
       }
 
-      /* If the up key is pressed, the ship moves forward with the speed and angle. */
+      /* If the up key is pressed, the ship accelerates. */
       if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
         if (this.speed < this.MAX_LINEAR_SPEED) {
           this.updateSpeed(this.DELTA_SPEED);
         }
-
-        this.game.trig.translatePoint(this.center, this.speed, this.angle);
-        this.game.trig.translatePoints(this.points, this.speed, this.angle);
         this.lastAccelerated = now;
       } else {
         if (this.speed > 0 && now - this.lastAccelerated >= 200) {
           var deltaTime = now - this.lastAccelerated;
           this.updateSpeed(-this.DELTA_SPEED);
         }
-        this.game.trig.translatePoint(this.center, this.speed, this.angle);
-        this.game.trig.translatePoints(this.points, this.speed, this.angle);
       }
+
+      /* Move ship by speed and angle. */
+      this.game.trig.translatePoint(this.center, this.speed, this.angle);
+      this.game.trig.translatePoints(this.points, this.speed, this.angle);
 
       /* If the down key is pressed, the ship is moved to a random point on the game screen.
       Hyperspace can only be used every 3 seconds. */
