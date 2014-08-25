@@ -112,7 +112,7 @@
     },
 
     shoot: function() {
-      var firingRate = this.size * 1000;
+      var firingRate = 3000;
       var firingThreshold = 0.5;
       var now = Date.now();
       if (now - this.lastFired >= firingRate && Math.random() >= firingThreshold) {
