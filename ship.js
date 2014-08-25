@@ -58,7 +58,6 @@
         this.lastAccelerated = now;
       } else {
         if (this.speed > 0 && now - this.lastAccelerated >= 200) {
-          var deltaTime = now - this.lastAccelerated;
           this.updateSpeed(-this.DELTA_SPEED);
         }
       }
