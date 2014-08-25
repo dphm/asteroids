@@ -5,20 +5,23 @@
   /* Constructor for a game that takes in a canvas element and draws a game on the screen. The game keeps 
   track of all living bodies. The initial game bodies are the ship and three asteroids. */
   function Game(canvas) {
-    var self = this;
     var screen = canvas.getContext('2d');
     this.size = { x: canvas.width, y: canvas.height };
     this.color = this.COLORS.PURPLE;
+    
     this.bodies = [];
     this.ship = new Ship(this);
     this.addBody(this.ship);
-    this.numberOfEnemies = 0;
+
     this.lives = 3;
+    this.lastEarnedLife = 0;
+
     this.score = 0;
-    this.lastLife = 0;
     this.level = 1;
+    this.numberOfEnemies = 0;
     this.startLevel();
 
+    var self = this;
     /* Main game tick function - an infinite game loop. */
     function tick() {
       /* Update game state. */ 
