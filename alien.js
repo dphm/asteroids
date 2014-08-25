@@ -116,7 +116,14 @@
       var firingThreshold = 0.5;
       var now = Date.now();
       if (now - this.lastFired >= firingRate && Math.random() >= firingThreshold) {
-        var bullet = new Bullet({ x: this.center.x, y: this.center.y }, this.game.randomAngle(), this);
+        var angle = this.game.randomAngle();
+        if (this.size === 1) {
+          var epsilon = Math.PI / (this.game.level * 6);
+          epsilon = Math.random() >= 0.5 ? epsilon : -epsilon;
+          angle = this.game.trig.angleToPoint(this.center, this.game.ship.center) + epsilon;
+        }
+
+        var bullet = new Bullet({ x: this.center.x, y: this.center.y }, angle, this);
         this.game.addBody(bullet);
         this.lastFired = now;
       }

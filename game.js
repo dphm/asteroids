@@ -10,7 +10,8 @@
     this.size = { x: canvas.width, y: canvas.height };
     this.color = this.COLORS.PURPLE;
     this.bodies = [];
-    this.addBody(new Ship(this));
+    this.ship = new Ship(this);
+    this.addBody(this.ship);
     this.numberOfEnemies = 0;
     this.lives = 3;
     this.score = 0;

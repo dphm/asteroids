@@ -86,7 +86,8 @@
       this.game.lives--;
       console.log('Lives:', this.game.lives);
       if (this.game.lives > 0) {
-        this.game.addBody(new Ship(this.game));
+        this.game.ship = new Ship(this.game);
+        this.game.addBody(this.game.ship);
       }
       this.game.removeBody(this);
     },
