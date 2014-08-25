@@ -1,7 +1,6 @@
 ;(function(exports) {
-  /* Keyboarder recognizes key presses and keeps track of the state of which keys are being pressed 
-     at the instant of "pressing." */
   function Keyboarder() {
+    // Map key names to key codes
     this.KEYS = {
       SPACE: 32,
       LEFT: 37,
@@ -10,16 +9,26 @@
       DOWN: 40
     }
 
+    // Store key state
     var keyState = {};
 
+    /**
+     * Updates state of pressed key to true.
+     */
     window.onkeydown = function(e) {
       keyState[e.keyCode] = true;
     };
 
+    /**
+     * Updates state of released key to false.
+     */
     window.onkeyup = function(e) {
       keyState[e.keyCode] = false;
     };
 
+    /**
+     * Returns true if the key corresponding to keyCode is being presed.
+     */
     this.isDown = function(keyCode) {
       return keyState[keyCode];
     };

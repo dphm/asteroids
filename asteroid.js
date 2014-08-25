@@ -1,61 +1,74 @@
 ;(function(exports) {
-  /* Constructor to create an asteroid body in game. */
   function Asteroid(game, center, size) {
     this.game = game;
     this.color = game.COLORS.TEAL;
-    this.center = center;
-    this.angle = game.validAngle();
-    this.speed = (4 - size) / 2;
+
     this.size = size;
+    this.angle = game.validAngle(); // 'Good' random angle.
+    this.speed = (4 - size) / 2;    // Inversely proportional to size.
+
+    // Set points and line segments about asteroid center.
+    this.center = center;
     this.resetPoints();
     this.resetLineSegments();
+    
+    // Increment the number of enemies in the game.
     this.game.numberOfEnemies++;
   }
 
-  /* Prototype object - contains all asteroid methods. */
   Asteroid.prototype = {
-    /* Updates the position of the bullet's center, and resets points and lines based on new center. */
+    /**
+     * Updates the position of the asteroid.
+     */
     update: function() {
+      // Move center by speed and angle.
       this.game.trig.translatePoint(this.center, this.speed, this.angle);
+
+      // Reset points and lines about new center.
       this.resetPoints();
       this.resetLineSegments();
 
-      /* Off-screen asteroids wrap around the screen, back into the canvas. */
+      // Wrap around if flying past the edges of the screen.
       this.game.wrapScreen(this);
     },
 
-    /* Draws the asteroid body on the screen. */
+    /**
+     * Draws the asteroid on the screen.
+     */
     draw: function(screen) {
       screen.lineWidth = 2;
       screen.strokeStyle = this.color;
       screen.fillStyle = this.game.color;
       screen.beginPath();
-
-      /* Draws a path containing all the points of the asteroid. */
       screen.moveTo(this.points[0].x, this.points[0].y);
       for (var i = 1; i < this.points.length; i++) {
         screen.lineTo(this.points[i].x, this.points[i].y);
       }
-
       screen.closePath();
       screen.stroke();
       screen.fill();
     },
 
-    /* Creates three smaller asteroids of size n-1 where n is the size of the asteroid being destroyed. */
+    /**
+     * Creates three asteroids of size n-1 where n is the size of the asteroid
+     * being destroyed, and adds them to the list of game bodies.
+     */
     spawn: function() {
       for (var i = 0; i < 3; i++) {
         this.game.addBody(new Asteroid(this.game, { x: this.center.x, y: this.center.y }, this.size - 1));
       }
     },
 
-    /* Creates 3 smaller asteroids once an asteroid of size 3 and 2 die. Asteroids of size 1 do not spawn 
-    any new asteroids. Removes the destroyed asteroid from the game's list of bodies. */
+    /**
+     * Handles events occurring upon the destruction of the asteroid.
+     */
     die: function() {
+      // Spawn smaller asteroids if size 2 or 3
       if (this.size > 1) {
         this.spawn();
       }
 
+      // Add points to the game score.
       switch(this.size) {
         case 3:
           this.game.addToScore(20);
@@ -68,11 +81,16 @@
           break;
       }
 
-      this.game.numberOfEnemies--;
+      // Remove the dead asteroid from the list of game bodies.
       this.game.removeBody(this);
+
+      // Decrement the number of enemies in the game.
+      this.game.numberOfEnemies--;
     },
 
-    /* Represents the asteroid as a set of points specific to the asteroid's size. */
+    /**
+     * Resets the points of the asteroid relative to its center.
+     */
     resetPoints: function() {
       switch(this.size) {
         case 3:
@@ -127,7 +145,10 @@
       
     },
 
-    /* Represents the asteroid as line segments; this is used in collision detection. */
+    /**
+     * Resets the line segments of the asteroid, relative to its points.
+     * Used in collision detection.
+     */
     resetLineSegments: function() {
       this.lineSegments = [];
       var self = this;

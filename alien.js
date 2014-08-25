@@ -2,32 +2,52 @@
   function Alien(game, size) {
     this.game = game;
     this.color = game.COLORS.YELLOW;
+
+    this.size = size;
     this.angle = game.validAngle();
     this.speed = 3 - size;
+
+    // Set points and lines about alien center.
     this.center = game.randomPoint();
-    this.size = size;
     this.resetPoints();
     this.resetLineSegments();
-    this.game.numberOfEnemies++;
 
-    this.lastFired = 0;
+    // Record the last occurrence of shooting.
+    this.lastShot = 0;
+
+    // Increment the number of enemies in the game.
+    this.game.numberOfEnemies++;
   }
 
   Alien.prototype = {
+    /* Limit constants. */
+    FIRING_LIMIT: 3000,
+    FIRING_THRESHOLD: 0.5,
+
+    /**
+     * Updates the position of the alien.
+     */
     update: function() {
+      // Move center by speed and angle.
       this.game.trig.translatePoint(this.center, this.speed, this.angle);
+
+      // Rest points and lines about the new center.
       this.resetPoints();
       this.resetLineSegments();
 
-      /* Off-screen aliens wrap around the screen, back into the canvas. */
+      // Wrap around if flying past the edges of the screen.
       this.game.wrapScreen(this);
 
-      this.shoot();
+      // Shoot once per FIRING_LIMIT milliseconds with a probability of FIRING_THRESHOLD.
+      if (Date.now() - this.lastShot >= FIRING_LIMIT && Math.random() >= FIRING_THRESHOLD) {
+        this.shoot();
+      }
     },
 
+    /**
+     * Draws the alien on the screen.
+     */
     draw: function(screen) {
-      var domeControl = { x: this.center.x, y: this.center.y - 25 };
-
       screen.lineWidth = 2;
       screen.strokeStyle = this.color;
       screen.fillStyle = this.game.color;
@@ -56,7 +76,11 @@
       screen.stroke();
     },
 
+    /**
+     * Handles events occurring upon the death of the alien.
+     */
     die: function() {
+      // Add points to the game score.
       switch(this.size) {
         case 2:
           this.game.addToScore(200);
@@ -66,10 +90,16 @@
           break;
       }
 
-      this.game.numberOfEnemies--;
+      // Remove the dead asteroid from the list of game bodies.
       this.game.removeBody(this);
+
+      // Decrement the number of enemies in the game.
+      this.game.numberOfEnemies--;
     },
 
+    /**
+     * Resets the points of the alien relative to its center.
+     */
     resetPoints: function() {
       switch(this.size) {
         case 2:
@@ -99,6 +129,10 @@
       }
     },
 
+    /**
+     * Resets the line segments of the alien relative to its points.
+     * Used in collision detection.
+     */
     resetLineSegments: function() {
       this.lineSegments = [];
       var self = this;
@@ -111,22 +145,27 @@
       });
     },
 
+    /**
+     * Adds a bullet to the list of game bodies.
+     */
     shoot: function() {
-      var firingRate = 3000;
-      var firingThreshold = 0.5;
-      var now = Date.now();
-      if (now - this.lastFired >= firingRate && Math.random() >= firingThreshold) {
-        var angle = this.game.randomAngle();
-        if (this.size === 1) {
-          var epsilon = Math.PI / (this.game.level * 6);
-          epsilon = Math.random() >= 0.5 ? epsilon : -epsilon;
-          angle = this.game.trig.angleToPoint(this.center, this.game.ship.center) + epsilon;
-        }
+      // Default to a random angle.
+      var angle = this.game.randomAngle();
 
-        var bullet = new Bullet({ x: this.center.x, y: this.center.y }, angle, this);
-        this.game.addBody(bullet);
-        this.lastFired = now;
+      // Small aliens shoot toward the ship center.
+      if (this.size === 1) {
+        // Shooting error is proportional to the level of the game.
+        var epsilon = Math.PI / (this.game.level * 6);
+        epsilon = Math.random() >= 0.5 ? epsilon : -epsilon;
+        angle = this.game.trig.angleToPoint(this.center, this.game.ship.center) + epsilon;
       }
+
+      // Create a bullet at the center of the alien with the specified angle.
+      var bullet = new Bullet({ x: this.center.x, y: this.center.y }, angle, this);
+      this.game.addBody(bullet);
+
+      // Update last occurrence of shooting.
+      this.lastShot = now;
     }
   };
 
