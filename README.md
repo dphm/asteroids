@@ -34,9 +34,9 @@ Gameplay
 
 Points
 ------
-    Large asteroids     20
-    Medium asteroids    50
-    Small asteroids     100
+    Large asteroid      20
+    Medium asteroid     50
+    Small asteroid      100
     Large alien         200
     Small alien         1000
 
