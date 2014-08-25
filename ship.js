@@ -7,6 +7,7 @@
     /* Create a keyboard object to track button presses. */
     this.keyboarder = new Keyboarder();
     this.lastFired = 0;
+    this.lastAccelerated = 0;
     this.lastWentIntoHyperspace = 0;
     
     /* Create the ship in the center of the canvas. */
@@ -16,10 +17,12 @@
     
     /* Angle at which the ship is moving. Initialized to PI/2 */
     this.angle = Math.PI / 2;
+    this.speed = 0;
     
     /* Movement constants. */
     this.DELTA_ANGLE = 5 * Math.PI / 180;
-    this.MAX_LINEAR_SPEED = 4;
+    this.DELTA_SPEED = 1;
+    this.MAX_LINEAR_SPEED = 6;
   }
 
   /* Prototype object - contains all ship methods. */
@@ -47,10 +50,22 @@
         this.game.trig.rotatePoints(this.points, this.center, this.DELTA_ANGLE);
       }
 
-      /* If the up key is pressed, the ship moves forward with the the MAX_LINEAR_SPEED and angle. */
+      /* If the up key is pressed, the ship moves forward with the speed and angle. */
       if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
-        this.game.trig.translatePoint(this.center, this.MAX_LINEAR_SPEED, this.angle);
-        this.game.trig.translatePoints(this.points, this.MAX_LINEAR_SPEED, this.angle);
+        if (this.speed < this.MAX_LINEAR_SPEED) {
+          this.updateSpeed(this.DELTA_SPEED);
+        }
+
+        this.game.trig.translatePoint(this.center, this.speed, this.angle);
+        this.game.trig.translatePoints(this.points, this.speed, this.angle);
+        this.lastAccelerated = now;
+      } else {
+        if (this.speed > 0 && now - this.lastAccelerated >= 200) {
+          var deltaTime = now - this.lastAccelerated;
+          this.updateSpeed(-this.DELTA_SPEED);
+        }
+        this.game.trig.translatePoint(this.center, this.speed, this.angle);
+        this.game.trig.translatePoints(this.points, this.speed, this.angle);
       }
 
       /* If the down key is pressed, the ship is moved to a random point on the game screen.
@@ -95,6 +110,11 @@
     /* This changes the angle of the ship's movement, and ensures that it is between 0 and 2 PI. */
     updateAngle: function(deltaAngle) {
       this.angle = (this.angle - deltaAngle) % this.game.FULL_ROTATION;
+    },
+
+    /* Updates the speed by DELTA_SPEED. */
+    updateSpeed: function(deltaSpeed) {
+      this.speed += deltaSpeed;
     },
 
     /* Moves center of the ship to the center of the screen. */
