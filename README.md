@@ -1,23 +1,52 @@
-asteroids
+Asteroids
 =========
 
-A very simplified Asteroids canvas game
+An Atari Asteroids clone written in JavaScript
 
 ![Asteroids](http://i.imgur.com/BEuBs4j.png)
 
-* Rotate the ship by pressing the left and right arrow keys
-* Move the ship forward by pressing the up arrow key
-* Shoot bullets by pressing the spacebar
-* Objects wrap around the screen
-* Lose a life when the ship collides with an asteroid
-* Game begins with three lives
-* Game over when all lives are lost
-* Large asteroids break up into three medium asteroids
-* Medium asteroids break up into three small asteroids
-* Smaller asteroids move more quickly
-* Levels with increasing number of asteroids
-* Level completed when all asteroids are destroyed
-* Large asteroids - 20 points
-* Medium asteroids - 50 points
-* Small asteroids - 100 points
-* One life earned every 10,000 points
+Controls
+========
+    UP    : accelerate the ship
+    LEFT  : rotate the ship left
+    RIGHT : rotate the ship right
+    DOWN  : jump into hyperspace
+    SPACE : shoot
+
+Limits
+------
+* Ships can shoot up to 3 times per second.
+* Ships can jump into hyperspace (move to a random location on the screen) up to 1 time per 3 seconds.
+
+Gameplay
+========
+* The game begins with three lives.
+* Lives are lost when the ship collides with enemy bodies or bullets.
+* The ship reappears in the center of the screen when a life is lost.
+* Levels are completed when all enemies are destroyed.
+* Asteroids, aliens, and ships wrap around the screen.
+* Large asteroids break up into three medium asteroids.
+* Medium asteroids break up into three small asteroids.
+* Smaller asteroids move more quickly.
+* Two aliens appear after the first level.
+* The large alien shoots randomly.
+* The small alien shoots toward the ship, with increasing accuracy at each level.
+
+Points
+------
+    Large asteroids     20
+    Medium asteroids    50
+    Small asteroids     100
+    Large alien         200
+    Small alien         1000
+
+Bonus
+-----
+One life is earned every 10,000 points.
+
+Notes
+=====
+* The aliens have developed special bullets that do not harm other aliens or asteroids.
+* Aliens have a 50% chance of firing every 3 seconds.
+* Ship bullets and alien bullets destroy each other.
+* Aliens can die by kamikaze attacks.
