@@ -170,11 +170,17 @@
      * Checks if two bodies are colliding.
      */
     colliding: function(b1, b2) {
+      /**
+       * Returns true if body b is a friend of the ship.
+       */
       function friend(b) {
         return b instanceof Ship ||
                b instanceof Bullet && b.creator instanceof Ship;
       }
 
+      /**
+       * Returns true if body b is an enemy of the ship.
+       */
       function enemy(b) {
         return b instanceof Asteroid ||
                b instanceof Alien    ||
@@ -185,18 +191,14 @@
                           friend(b2) && enemy(b1);
 
       if (shouldCollide) {
-        var lines1 = b1.lineSegments;
-        var lines2 = b2.lineSegments;
-        for (var i = 0; i < lines1.length; i++) {
-          for (var j = 0; j < lines2.length; j++) {
-            var intersection = this.trig.lineIntersection(lines1[i], lines2[j]);
-            if (intersection) {
-              return true;
-            }
-          }
-        }
+        var self = this;
+        // Return true if some lines l1 and l2 intersect.
+        return b1.lineSegments.some(function(l1) {
+          return b2.lineSegments.some(function(l2) {
+            return self.trig.lineIntersection(l1, l2);
+          });
+        });
       }
-      return false;
     },
 
     /**
