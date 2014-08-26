@@ -1,9 +1,4 @@
 ;(function() {
-  /* Constant: Number of points needed to earn a life. */
-  POINTS_TO_NEXT_LIFE = 10000;
-
-  /* Constructor for a game that takes in a canvas element and draws a game on the screen. The game keeps 
-  track of all living bodies. The initial game bodies are the ship and three asteroids. */
   function Game(canvas) {
     var screen = canvas.getContext('2d');
     this.size = { x: canvas.width, y: canvas.height };
@@ -22,28 +17,26 @@
     this.startLevel();
 
     var self = this;
-    /* Main game tick function - an infinite game loop. */
+    // Infinite game loop.
     function tick() {
-      /* Update game state. */ 
+      // Update game state.
       self.update();
 
-      /* Draw game bodies. */
+      // Draw game bodies.
       self.draw(screen);
 
-      /* Add next tick to browser queue. */
+      // Add next tick to browser queue.
       requestAnimationFrame(tick);
     }
 
-    /* Call the first game tick. */
+    // Call the first game tick.
     tick();
   }
 
-  /* Prototype object - contains all game methods. */
   Game.prototype = {
-    /* Constant: Angle of a full circle. */
     FULL_ROTATION: 2 * Math.PI,
+    POINTS_TO_NEXT_LIFE: 10000,
 
-    /* Constants: Color scheme. */
     COLORS: {
       PURPLE: '#504b6a',
       TEAL:   '#659893',
@@ -51,45 +44,50 @@
       YELLOW: '#fdd284'
     },
 
-    /* Updates the state of the game. */
+    /**
+     * Updates the state of the game.
+     */
     update: function() {
       var self = this;
 
-      /* Checks for collisions between any two existant bodies. */
+      // Check for collisions between any two bodies.
       self.bodies.forEach(function(b1) {
         self.bodies.forEach(function(b2) {
           if (self.colliding(b1, b2)) {
-            /* Kills the colliding bodies. */
             b1.die();
             b2.die();
           }
         });
 
-        /* Updates all the bodies. */
+        // Update each body.
         b1.update();
       });
 
-      /* Starts the next level if the current level has been completed. */
+      // Start the next level if the current level has been completed.
       if (this.levelCompleted()) {
         this.level++;
         this.startLevel();
       }
 
-      /* Ends the game if there are no lives left. */
+      // Game over if there are no lives left.
       if (this.lives <= 0) {
         this.over();
       }
     },
 
-    /* Draws the game. */
+    /**
+     * Draws the game to the screen.
+     */
     draw: function(screen) {
       screen.fillStyle = this.color;
       screen.fillRect(0, 0, this.size.x, this.size.y);
-      this.bodies.map(function(body) {
+
+      // Draw each body.
+      this.bodies.forEach(function(body) {
         body.draw(screen);
       });
 
-      /* Draws the ship lives. */
+      // Draw the ship lives.
       for (var l = 0; l < this.lives; l++) {
         var points = [
           { x: 22.5       + 20 * l, y: 20 +   5 },
@@ -109,53 +107,69 @@
         screen.stroke();
       }
 
-      /* Draws the score and level. */
+      // Draw the score and level.
       screen.font = '16px Helvetica';
       screen.fillStyle = this.COLORS.YELLOW;
       screen.fillText('score: ' + this.score, 15, 50);
       screen.fillText('level: ' + this.level, 15, 70);
     },
 
-    /* Adds a body to the list of game bodies. */
+    /**
+     * Adds a body to the list of game bodies.
+     */
     addBody: function(body) {
       this.bodies.push(body);
     },
 
-    /* Removes a body from the list of game bodies. */
+    /**
+     * Removes a body from the list of game bodies.
+     */
     removeBody: function(body) {
       var i = this.bodies.indexOf(body);
       delete this.bodies[i];
       // this.bodies.splice(i, i);
     },
 
-    /* Wraps bodies around the screen by moving the center of an offscreen body
-    to the other side of the screen while preserving the body's angle and speed. */
+    /**
+     * Returns true if the body center is off-screen.
+     */
+    offScreen: function(body) {
+      return body.center.x < 0 || body.center.x > this.size.x ||
+             body.center.y < 0 || body.center.y > this.size.y;
+    },
+
+    /**
+     * Wraps bodies around the screen while preserving the body's angle.
+     */
     wrapScreen: function(body) {
-      var self = this;
-      function wrapPoints() {
+      if (this.offScreen(body)) {
+        // Wrap horizontally.
+        if (body.center.x < 0) {
+          body.center.x = this.size.x;
+        } else if (body.center.x > this.size.x) {
+          body.center.x = 0;
+        }
+
+        // Wrap vertically.
+        if (body.center.y < 0) {
+          body.center.y = this.size.y;
+        } else if (body.center.y > this.size.y) {
+          body.center.y = 0;
+        }
+
+        // Reset points and lines about the new center.
         body.resetPoints();
         body.resetLineSegments();
-        self.trig.rotatePoints(body.points, body.center, -body.angle + Math.PI / 2);
-      }
 
-      if (body.center.x < 0) {
-        body.center.x = this.size.x;
-        wrapPoints();
-      } else if (body.center.x > this.size.x) {
-        body.center.x = 1;
-        wrapPoints();
-      }
-
-      if (body.center.y < 0) {
-        body.center.y = this.size.y;
-        wrapPoints();
-      } else if (body.center.y > this.size.y) {
-        body.center.y = 1;
-        wrapPoints();
+        // Maintain the body's angle.
+        this.trig.rotatePoints(body.points, body.center,
+                               -body.angle + Math.PI / 2);
       }
     },
 
-    /* Checks if two bodies are colliding. */
+    /**
+     * Checks if two bodies are colliding.
+     */
     colliding: function(b1, b2) {
       var shouldCollide = b1 instanceof Ship     && b2 instanceof Asteroid ||
                           b1 instanceof Asteroid && b2 instanceof Ship     ||
@@ -182,51 +196,66 @@
       return false;
     },
 
-    /* Starts a new level. */
+    /**
+     * Starts the current level.
+     */
     startLevel: function() {
-      /* Adds asteroids to the game list of bodies proportional to the level number. */
+      // Add asteroids to the list of game bodies.
       for (var i = 0; i < this.level; i++) {
-        this.addBody(
-          new Asteroid(this, this.randomPoint(), 3)
-        );
+        this.addBody(new Asteroid(this, this.randomPoint(), 3));
       }
 
+      // Add aliens to the list of game bodies.
       if (this.level > 1) {
         this.addBody(new Alien(this, 2));
         this.addBody(new Alien(this, 1));
       }
     },
 
-    /* Checks if the level has been completed. */
+    /**
+     * Returns true if the level has been completed.
+     */
     levelCompleted: function() {
       return this.numberOfEnemies === 0;
     },
 
-    /* Adds points to the game score. */
+    /**
+     * Adds points to the game score.
+     */
     addToScore: function(points) {
       this.score += points;
 
-      /* Adds a life if it has been earned. */
+      // Add a life if it has been earned.
       if (this.earnedLife()) {
         this.addLife();
-        this.lastLife = Math.round(this.score / POINTS_TO_NEXT_LIFE) * POINTS_TO_NEXT_LIFE;
+        this.lastLife = Math.round(this.score / this.POINTS_TO_NEXT_LIFE) *
+                        this.POINTS_TO_NEXT_LIFE;
       }
     },
 
-    /* Checks if player earned a life. One life is added for every 10,000 points. */
+    /**
+     * Returns true if player earned a life.
+     * One life is added for every POINTS_TO_NEXT_LIFE points.
+     */
     earnedLife: function() {
-      return this.score - this.lastLife >= POINTS_TO_NEXT_LIFE;
+      return this.score - this.lastLife >= this.POINTS_TO_NEXT_LIFE;
     },
 
-    /* Increments the number of game lives. */
+    /**
+     * Increments the number of game lives.
+     */
     addLife: function() {
       this.lives++;
     },
 
-    /* Draws the game over screen. */
+    /**
+     * Handles events occurring when the game is over.
+     */
     over: function() {
-      /* Stops updating the game. */
+      // Stop updating the game.
       this.update = function() {};
+
+      // Draw the game over screen.
       this.draw = function(screen) {
         screen.fillStyle = this.COLORS.TEAL;
         screen.fillRect(0, 0, this.size.x, this.size.y);
@@ -235,39 +264,43 @@
         screen.fillStyle = 'white';
         screen.fillText('game over', 250, 300);
 
-        for (var i = 0; i < this.bodies.length; i++) {
-          if (this.bodies[i] instanceof Ship) {
-            this.bodies[i].draw(screen);
-          }
-        }
-
-        /* Draws the score and level. */
+        // Draw the score and level.
         screen.font = '16px Helvetica';
         screen.fillStyle = this.COLORS.YELLOW;
         screen.fillText('score: ' + this.score, 250, 320);
       };
     },
 
-    /* Returns a random point on the game screen. */
+    /**
+     * Returns a random point on the game screen.
+     */
     randomPoint: function() {
       var randX = Math.random() * this.size.x;
       var randY = Math.random() * this.size.y;
       return { x: randX, y: randY };
     },
 
-    /* Returns a random speed between 0 and 1. */
+    /**
+     * Returns a random speed between 0 and 1.
+     */
     randomSpeed: function() {
       return Math.random();
     },
 
-    /* Returns a random speed between 0 and 1. Bodies with speed less than 0.5 travel right to left. */
+    /**
+     * Returns a random angle between 0 and 2 PI.
+     */
     randomAngle: function() {
       return Math.random() * this.FULL_ROTATION;
     },
 
-    /* Returns a random angle, avoiding ranges that may cause an asteroid to loop forever on a horizontal or vertical axis. */
+    /**
+     * Returns a random angle, avoiding sharp horizontal or vertical axes.
+     */
     validAngle: function() {
-      /* Returns true if the given angle is in a bad range. */
+      /**
+       * Returns true if the given angle is in a 'bad' range.
+       */
       function inBadRange(angle) {
         var e = Math.PI / 36;
         var badRanges = [[0, 0 + e],
@@ -280,7 +313,7 @@
         });
       }
 
-      /* Ensures that the angle returned is not in a bad range. */
+      // Ensure that the angle returned is not in a 'bad' range.
       var angle = 0;
       do {
         angle = this.randomAngle();
@@ -288,16 +321,20 @@
       return angle;
     },
 
-    /* Set of trig utility functions. */
+    // Set of trig utility functions.
     trig: {
-      /* Rotates a point about the center point by some angle. */
+      /**
+       * Rotates a point about the center by the given angle.
+       */
       rotatePoint: function(point, center, angle) {
         var p = { x: point.x, y: point.y };
         point.x = Math.cos(angle) * (p.x - center.x) - Math.sin(angle) * (p.y - center.y) + center.x;
         point.y = Math.sin(angle) * (p.x - center.x) + Math.cos(angle) * (p.y - center.y) + center.y;
       },
 
-      /* Maps rotatePoint on a set of points. */
+      /**
+       * Performs rotatePoint on each point in points.
+       */
       rotatePoints: function(points, center, angle) {
         var self = this;
         points.forEach(function(point) {
@@ -305,13 +342,17 @@
         });
       },
 
-      /* Moves a point with a certain speed and angle. */
+      /**
+       * Moves a point with a certain speed and angle.
+       */
       translatePoint: function(point, speed, angle) {
         point.x += speed * Math.cos(angle);
         point.y += speed * -Math.sin(angle);
       },
 
-      /* Maps translatePoint on a set of points. */
+      /**
+       * Performs translatePoint on each point in points.
+       */
       translatePoints: function(points, speed, angle) {
         var self = this;
         points.forEach(function(point) {
@@ -319,7 +360,9 @@
         });
       },
 
-      /* Checks if point p is on infinite line l. */
+      /**
+       * Returns true if point p is on infinite line l.
+       */
       pointOnLine: function(p, l) {
         var A = l.p2.y - l.p1.y;
         var B = l.p1.x - l.p2.x;
@@ -331,7 +374,9 @@
         return this.pointInBounds(p, l) && d < e;
       },
 
-      /* Checks if point p is in line segment l. */
+      /**
+       * Returns true if point p is in the bounds of line segment l.
+       */
       pointInBounds: function(p, l) {
         var x = p.x;
         var y = p.y;
@@ -342,7 +387,9 @@
                y <= Math.max(l.p1.y, l.p2.y);
       },
 
-      /* Checks if lines l1 and l2 intersect. */
+      /**
+       * Returns true if lines l1 and l2 intersect.
+       */
       lineIntersection: function(l1, l2) {
         var A1 = l1.p2.y - l1.p1.y;
         var B1 = l1.p1.x - l1.p2.x;
@@ -361,18 +408,23 @@
           var y = (A1 * C2 - A2 * C1) / det;
           var intersection = { x: x, y: y };
           
-          if (this.pointInBounds(intersection, l1) && this.pointInBounds(intersection, l2)) {
+          if (this.pointInBounds(intersection, l1) && 
+              this.pointInBounds(intersection, l2)) {
             return intersection;
           }
         }
       },
 
-      /* Returns the coordinates of the given point relative to the given origin. */
+      /**
+       * Returns the coordinates of the given point relative to the given origin.
+       */
       relativeCoordinates: function(origin, point) {
         return { x: point.x - origin.x, y: point.y - origin.y };
       },
 
-      /* Returns the quadrant of the given relative point. */
+      /**
+       * Returns the quadrant of the given relative point.
+       */
       relativeQuadrant: function(relativePoint) {
         if (relativePoint.y <= 0) {
           return relativePoint.x <= 0 ? 2 : 1;
@@ -381,7 +433,9 @@
         }
       },
 
-      /* Returns the angle from the origin to the point in radians. */
+      /**
+       * Returns the angle from the origin to the point in radians.
+       */
       angleToPoint: function(origin, point) {
         var rel = this.relativeCoordinates(origin, point);
         var quadrant = this.relativeQuadrant(rel);
@@ -402,7 +456,7 @@
     }
   };
 
-  /* Start game */
+  // Start game.
   window.onload = function() {
     var canvas = document.getElementById('screen');
     new Game(canvas);

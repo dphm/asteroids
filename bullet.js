@@ -26,7 +26,7 @@
       this.resetLineSegments();
 
       // Kill bullets that leave the screen.
-      if (this.offScreen()) {
+      if (this.game.offScreen(this)) {
         this.die();
       }
     },
@@ -47,14 +47,6 @@
     die: function() {
       // Remove the dead bullet from the list of game bodies.
       this.game.removeBody(this);
-    },
-
-    /**
-     * Returns true if the bullet center is off-screen.
-     */
-    offScreen: function() {
-      return this.center.x < 0 || this.center.x > this.game.size.x ||
-             this.center.y < 0 || this.center.y > this.game.size.y;
     },
 
     /**

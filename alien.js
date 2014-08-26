@@ -39,7 +39,7 @@
       this.game.wrapScreen(this);
 
       // Shoot once per FIRING_LIMIT milliseconds with a probability of FIRING_THRESHOLD.
-      if (Date.now() - this.lastShot >= FIRING_LIMIT && Math.random() >= FIRING_THRESHOLD) {
+      if (Date.now() - this.lastShot >= this.FIRING_LIMIT && Math.random() >= this.FIRING_THRESHOLD) {
         this.shoot();
       }
     },
@@ -165,7 +165,7 @@
       this.game.addBody(bullet);
 
       // Update last occurrence of shooting.
-      this.lastShot = now;
+      this.lastShot = Date.now();
     }
   };
 
