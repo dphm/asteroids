@@ -35,9 +35,6 @@
       this.resetPoints();
       this.resetLineSegments();
 
-      // Wrap around if flying past the edges of the screen.
-      this.game.wrapScreen(this);
-
       // Shoot once per FIRING_LIMIT milliseconds with a probability of FIRING_THRESHOLD.
       if (Date.now() - this.lastShot >= this.FIRING_LIMIT && Math.random() >= this.FIRING_THRESHOLD) {
         this.shoot();

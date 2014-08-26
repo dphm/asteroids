@@ -68,6 +68,7 @@
       // Update each body.
       this.bodies.forEach(function(body) {
         body.update();
+        self.wrapScreen(body);
       });
 
       // Start the next level if the current level has been completed.

@@ -89,9 +89,6 @@
       // Move by speed and angle.
       this.game.trig.translatePoint(this.center, this.speed, this.angle);
       this.game.trig.translatePoints(this.points, this.speed, this.angle);
-
-      // Wrap around if flying past the edges of the screen.
-      this.game.wrapScreen(this);
     },
 
     /**

@@ -10,13 +10,13 @@ Controls
     UP    : accelerate the ship
     LEFT  : rotate the ship left
     RIGHT : rotate the ship right
-    DOWN  : jump into hyperspace
+    DOWN  : jump into hyperspace (teleport to random location)
     SPACE : shoot
 
 Limits
 ------
 * Ships can shoot up to 3 times per second.
-* Ships can jump into hyperspace (move to a random location on the screen) up to 1 time per 3 seconds.
+* Ships can jump into hyperspace up to 1 time per 3 seconds.
 
 Gameplay
 ========
@@ -25,6 +25,7 @@ Gameplay
 * The ship reappears in the center of the screen when a life is lost.
 * Levels are completed when all enemies are destroyed.
 * Asteroids, aliens, and ships wrap around the screen.
+* Bullets do not wrap around the screen.
 * Large asteroids break up into three medium asteroids.
 * Medium asteroids break up into three small asteroids.
 * Smaller asteroids move more quickly.

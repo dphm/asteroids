@@ -3,6 +3,7 @@
     this.creator = creator;
     this.game = creator.game;
     this.color = creator.color;
+    this.created = Date.now();
 
     this.angle = angle;
     this.speed = 5;
@@ -25,7 +26,7 @@
       this.resetPoints();
       this.resetLineSegments();
 
-      // Kill bullets that leave the screen.
+      // Kill off-screen bullets.
       if (this.game.offScreen(this)) {
         this.die();
       }

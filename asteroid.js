@@ -27,9 +27,6 @@
       // Reset points and lines about new center.
       this.resetPoints();
       this.resetLineSegments();
-
-      // Wrap around if flying past the edges of the screen.
-      this.game.wrapScreen(this);
     },
 
     /**
