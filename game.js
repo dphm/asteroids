@@ -192,7 +192,6 @@
           for (var j = 0; j < lines2.length; j++) {
             var intersection = this.trig.lineIntersection(lines1[i], lines2[j]);
             if (intersection) {
-              console.log(intersection);
               return true;
             }
           }
