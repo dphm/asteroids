@@ -126,8 +126,7 @@
      */
     removeBody: function(body) {
       var i = this.bodies.indexOf(body);
-      delete this.bodies[i];
-      // this.bodies.splice(i, i);
+      this.bodies.splice(i, 1);
     },
 
     /**
