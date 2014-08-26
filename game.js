@@ -51,16 +51,23 @@
       var self = this;
 
       // Check for collisions between any two bodies.
-      self.bodies.forEach(function(b1) {
-        self.bodies.forEach(function(b2) {
-          if (self.colliding(b1, b2)) {
-            b1.die();
-            b2.die();
-          }
-        });
+      var collidingPairs = [];
+      this.pairsOfBodies().forEach(function(pair) {
+        if (self.colliding(pair[0], pair[1])) {
+          collidingPairs.push(pair);
+        }
+      });
 
-        // Update each body.
-        b1.update();
+      // Kill each of the colliding bodies.
+      collidingPairs.forEach(function(pair) {
+        pair.forEach(function(body) {
+          body.die();
+        });
+      });
+
+      // Update each body.
+      this.bodies.forEach(function(body) {
+        body.update();
       });
 
       // Start the next level if the current level has been completed.
@@ -127,6 +134,19 @@
     removeBody: function(body) {
       var i = this.bodies.indexOf(body);
       this.bodies.splice(i, 1);
+    },
+
+    /**
+     * Returns a list of pairs of bodies.
+     */
+    pairsOfBodies: function() {
+      var pairs = [];
+      for (var i = 0; i < this.bodies.length; i++) {
+        for (var j = i + 1; j < this.bodies.length; j++) {
+          pairs.push([this.bodies[i], this.bodies[j]]);
+        }
+      }
+      return pairs;
     },
 
     /**
