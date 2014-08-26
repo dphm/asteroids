@@ -171,14 +171,19 @@
      * Checks if two bodies are colliding.
      */
     colliding: function(b1, b2) {
-      var shouldCollide = b1 instanceof Ship     && b2 instanceof Asteroid ||
-                          b1 instanceof Asteroid && b2 instanceof Ship     ||
-                          b1 instanceof Ship     && b2 instanceof Alien    ||
-                          b1 instanceof Alien    && b2 instanceof Ship     ||
-                          b1 instanceof Bullet   && b1.creator instanceof Ship  && !(b2 instanceof Ship) ||
-                          b2 instanceof Bullet   && b2.creator instanceof Ship  && !(b1 instanceof Ship) ||
-                          b1 instanceof Bullet   && b1.creator instanceof Alien &&   b2 instanceof Ship  ||
-                          b2 instanceof Bullet   && b2.creator instanceof Alien &&   b1 instanceof Ship  ;
+      function friend(b) {
+        return b instanceof Ship ||
+               b instanceof Bullet && b.creator instanceof Ship;
+      }
+
+      function enemy(b) {
+        return b instanceof Asteroid ||
+               b instanceof Alien    ||
+               b instanceof Bullet && b.creator instanceof Alien;
+      }
+
+      var shouldCollide = friend(b1) && enemy(b2) ||
+                          friend(b2) && enemy(b1);
 
       if (shouldCollide) {
         var lines1 = b1.lineSegments;
