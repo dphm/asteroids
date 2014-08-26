@@ -70,10 +70,11 @@
     },
 
     /**
-     * Creates three more steroids and adds them to the list of game bodies.
+     * Creates another steroid and adds it to the list of game bodies
+     * if the number of enemies has not exceeded the maximum.
      */
     spawn: function() {
-      for (var i = 0; i < 3; i++) {
+      if (this.game.numberOfEnemies < this.game.MAX_NUM_OF_ENEMIES) {
         this.game.addBody(new Steroid(this.game, { x: this.center.x,
                                                    y: this.center.y }));
       }
@@ -82,15 +83,8 @@
     /**
      * Handles events occurring upon the destruction of the steroid.
      */
-    die: function() {
+    collide: function() {
       this.spawn();
-      this.game.addToScore(100);
-
-      // Remove the dead steroid from the list of game bodies.
-      this.game.removeBody(this);
-
-      // Decrement the number of enemies in the game.
-      this.game.numberOfEnemies--;
     },
 
     /**

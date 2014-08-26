@@ -7,14 +7,10 @@
     this.bodies = [];
     this.ship = new Ship(this);
     this.addBody(this.ship);
-
-    this.lives = 3;
-    this.lastEarnedLife = 0;
+    this.addBody(new Steroid(this, this.randomPoint()));
 
     this.score = 0;
-    this.level = 1;
     this.numberOfEnemies = 0;
-    this.startLevel();
 
     var self = this;
     // Infinite game loop.
@@ -35,7 +31,6 @@
 
   Game.prototype = {
     FULL_ROTATION: 2 * Math.PI,
-    POINTS_TO_NEXT_LIFE: 10000,
 
     COLORS: {
       PURPLE: '#504b6a',
@@ -43,6 +38,8 @@
       GREEN:  '#acd268',
       YELLOW: '#fdd284'
     },
+
+    MAX_NUM_OF_ENEMIES: 20,
 
     /**
      * Updates the state of the game.
@@ -61,7 +58,7 @@
       // Kill each of the colliding bodies.
       collidingPairs.forEach(function(pair) {
         pair.forEach(function(body) {
-          body.die();
+          body.collide();
         });
       });
 
@@ -70,17 +67,6 @@
         body.update();
         self.wrapScreen(body);
       });
-
-      // Start the next level if the current level has been completed.
-      if (this.levelCompleted()) {
-        this.level++;
-        this.startLevel();
-      }
-
-      // Game over if there are no lives left.
-      if (this.lives <= 0) {
-        this.over();
-      }
     },
 
     /**
@@ -94,32 +80,6 @@
       this.bodies.forEach(function(body) {
         body.draw(screen);
       });
-
-      // Draw the ship lives.
-      for (var l = 0; l < this.lives; l++) {
-        var points = [
-          { x: 22.5       + 20 * l, y: 20 +   5 },
-          { x: 22.5 - 5   + 20 * l, y: 20 + 7.5 },
-          { x: 22.5       + 20 * l, y: 20 - 7.5 },
-          { x: 22.5 + 5.5 + 20 * l, y: 20 + 7.5 }
-        ];
-
-        screen.lineWidth = 1;
-        screen.strokeStyle = this.COLORS.GREEN;
-        screen.beginPath();
-        screen.moveTo(points[0].x, points[0].y);
-        for (var i = 1; i < points.length; i++) {
-          screen.lineTo(points[i].x, points[i].y);
-        }
-        screen.closePath();
-        screen.stroke();
-      }
-
-      // Draw the score and level.
-      screen.font = '16px Helvetica';
-      screen.fillStyle = this.COLORS.YELLOW;
-      screen.fillText('score: ' + this.score, 15, 50);
-      screen.fillText('level: ' + this.level, 15, 70);
     },
 
     /**
@@ -203,9 +163,7 @@
        * Returns true if body b is an enemy of the ship.
        */
       function enemy(b) {
-        return b instanceof Steroid ||
-               b instanceof Alien    ||
-               b instanceof Bullet && b.creator instanceof Alien;
+        return b instanceof Steroid;
       }
 
       var shouldCollide = friend(b1) && enemy(b2) ||
@@ -223,51 +181,6 @@
     },
 
     /**
-     * Starts the current level.
-     */
-    startLevel: function() {
-      // Add steroids to the list of game bodies.
-      for (var i = 0; i < this.level; i++) {
-        this.addBody(new Steroid(this, this.randomPoint(), 3));
-      }
-
-      // Add aliens to the list of game bodies.
-      if (this.level > 1) {
-        this.addBody(new Alien(this, 2));
-        this.addBody(new Alien(this, 1));
-      }
-    },
-
-    /**
-     * Returns true if the level has been completed.
-     */
-    levelCompleted: function() {
-      return this.numberOfEnemies === 0;
-    },
-
-    /**
-     * Adds points to the game score.
-     */
-    addToScore: function(points) {
-      this.score += points;
-
-      // Add a life if it has been earned.
-      if (this.earnedLife()) {
-        this.lives++;
-        this.lastEarnedLife = Math.round(this.score / this.POINTS_TO_NEXT_LIFE)
-                              * this.POINTS_TO_NEXT_LIFE;
-      }
-    },
-
-    /**
-     * Returns true if player earned a life.
-     * One life is added for every POINTS_TO_NEXT_LIFE points.
-     */
-    earnedLife: function() {
-      return this.score - this.lastEarnedLife >= this.POINTS_TO_NEXT_LIFE;
-    },
-
-    /**
      * Handles events occurring when the game is over.
      */
     over: function() {
@@ -282,11 +195,6 @@
         screen.font = '20px Helvetica';
         screen.fillStyle = 'white';
         screen.fillText('game over', 250, 300);
-
-        // Draw the score and level.
-        screen.font = '16px Helvetica';
-        screen.fillStyle = this.COLORS.YELLOW;
-        screen.fillText('score: ' + this.score, 250, 320);
       };
     },
 

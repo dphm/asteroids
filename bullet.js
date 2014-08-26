@@ -45,7 +45,7 @@
     /**
      * Handles events occurring upon the destruction of the bullet.
      */
-    die: function() {
+    collide: function() {
       // Remove the dead bullet from the list of game bodies.
       this.game.removeBody(this);
     },
