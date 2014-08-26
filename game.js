@@ -232,7 +232,7 @@
       // Add a life if it has been earned.
       if (this.earnedLife()) {
         this.addLife();
-        this.lastLife = Math.round(this.score / this.POINTS_TO_NEXT_LIFE) *
+        this.lastEarnedLife = Math.round(this.score / this.POINTS_TO_NEXT_LIFE) *
                         this.POINTS_TO_NEXT_LIFE;
       }
     },
@@ -242,7 +242,7 @@
      * One life is added for every POINTS_TO_NEXT_LIFE points.
      */
     earnedLife: function() {
-      return this.score - this.lastLife >= this.POINTS_TO_NEXT_LIFE;
+      return this.score - this.lastEarnedLife >= this.POINTS_TO_NEXT_LIFE;
     },
 
     /**
