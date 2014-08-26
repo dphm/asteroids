@@ -52,7 +52,8 @@
      */
     spawn: function() {
       for (var i = 0; i < 3; i++) {
-        this.game.addBody(new Asteroid(this.game, { x: this.center.x, y: this.center.y }, this.size - 1));
+        this.game.addBody(new Asteroid(this.game, { x: this.center.x, y: this.center.y },
+                                       this.size - 1));
       }
     },
 

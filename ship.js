@@ -71,7 +71,8 @@
       }
 
       // Jump into hyperspace up to once per HYPERSPACE_LIMIT milliseconds.
-      if (this.jumpingIntoHyperspace() && now - this.lastJumpedIntoHyperspace >= this.HYPERSPACE_LIMIT) {
+      var canJump = now - this.lastJumpedIntoHyperspace >= this.HYPERSPACE_LIMIT;
+      if (this.jumpingIntoHyperspace() && canJump) {
         // Move center to a random point.
         this.center = this.game.randomPoint();
 
@@ -80,7 +81,8 @@
         this.resetLineSegments();
 
         // Maintain the angle of rotation.
-        this.game.trig.rotatePoints(this.points, this.center, -this.angle + Math.PI / 2);
+        this.game.trig.rotatePoints(this.points, this.center,
+                                    -this.angle + Math.PI / 2);
 
         // Update last occurrence of hyperspace jump.
         this.lastJumpedIntoHyperspace = now;
@@ -188,7 +190,8 @@
      */
     shoot: function() {
       // Create a bullet at the nose of the ship with the angle of the ship.
-      var bullet = new Bullet({ x: this.points[2].x, y: this.points[2].y }, this.angle, this);
+      var bullet = new Bullet({ x: this.points[2].x, y: this.points[2].y },
+                              this.angle, this);
       this.game.addBody(bullet);
 
       // Update last occurrence of shooting.

@@ -31,12 +31,15 @@
       // Move center by speed and angle.
       this.game.trig.translatePoint(this.center, this.speed, this.angle);
 
-      // Rest points and lines about the new center.
+      // Reset points and lines about the new center.
       this.resetPoints();
       this.resetLineSegments();
 
-      // Shoot once per FIRING_LIMIT milliseconds with a probability of FIRING_THRESHOLD.
-      if (Date.now() - this.lastShot >= this.FIRING_LIMIT && Math.random() >= this.FIRING_THRESHOLD) {
+      // Shoot once per FIRING_LIMIT milliseconds
+      // with probability of FIRING_THRESHOLD.
+      var canShoot = Date.now() - this.lastShot >= this.FIRING_LIMIT;
+      var willShoot = Math.random() >= this.FIRING_THRESHOLD;
+      if (canShoot && willShoot) {
         this.shoot();
       }
     },
@@ -154,7 +157,8 @@
         // Shooting error is proportional to the level of the game.
         var epsilon = Math.PI / (this.game.level * 6);
         epsilon = Math.random() >= 0.5 ? epsilon : -epsilon;
-        angle = this.game.trig.angleToPoint(this.center, this.game.ship.center) + epsilon;
+        angle = this.game.trig.angleToPoint(this.center, this.game.ship.center)
+                + epsilon;
       }
 
       // Create a bullet at the center of the alien with the specified angle.
