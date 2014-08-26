@@ -102,8 +102,12 @@
       screen.lineWidth = 1;
       screen.strokeStyle = this.color;
 
-      // Flash lines on creation.
-      if (now - this.created <= 300 && now % 5 > 0) {
+      var FLASH_TIME = 300;
+      var onCreation = now - this.created <= FLASH_TIME;
+      var onHyperspace = now - this.lastJumpedIntoHyperspace <= FLASH_TIME;
+
+      // Flash lines on creation or on hyperspace jump.
+      if ((onCreation || onHyperspace) && now % 5 > 0) {
         screen.strokeStyle = this.game.color;
       }
 

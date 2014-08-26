@@ -138,7 +138,7 @@
     },
 
     /**
-     * Wraps bodies around the screen while preserving the body's angle.
+     * Wraps bodies around the screen while preserving the angle of the body.
      */
     wrapScreen: function(body) {
       if (this.offScreen(body)) {
@@ -160,7 +160,7 @@
         body.resetPoints();
         body.resetLineSegments();
 
-        // Maintain the body's angle.
+        // Maintain the angle of the body.
         this.trig.rotatePoints(body.points, body.center,
                                -body.angle + Math.PI / 2);
       }
@@ -232,9 +232,9 @@
 
       // Add a life if it has been earned.
       if (this.earnedLife()) {
-        this.addLife();
-        this.lastEarnedLife = Math.round(this.score / this.POINTS_TO_NEXT_LIFE) *
-                        this.POINTS_TO_NEXT_LIFE;
+        this.lives++;
+        this.lastEarnedLife = Math.round(this.score / this.POINTS_TO_NEXT_LIFE)
+                              * this.POINTS_TO_NEXT_LIFE;
       }
     },
 
@@ -244,13 +244,6 @@
      */
     earnedLife: function() {
       return this.score - this.lastEarnedLife >= this.POINTS_TO_NEXT_LIFE;
-    },
-
-    /**
-     * Increments the number of game lives.
-     */
-    addLife: function() {
-      this.lives++;
     },
 
     /**
@@ -308,11 +301,11 @@
        */
       function inBadRange(angle) {
         var e = Math.PI / 36;
-        var badRanges = [[0, 0 + e],
-                         [Math.PI / 2 - e, Math.PI / 2 + e],
-                         [Math.PI - e, Math.PI + e],
+        var badRanges = [[                  0,               0 + e],
+                         [    Math.PI / 2 - e,     Math.PI / 2 + e],
+                         [        Math.PI - e,         Math.PI + e],
                          [3 * Math.PI / 2 - e, 3 * Math.PI / 2 + e],
-                         [2 * Math.PI - e, 2 * Math.PI]];
+                         [    2 * Math.PI - e,         2 * Math.PI]];
         return badRanges.some(function(range) {
           return angle >= range[0] && angle <= range[1];
         });
@@ -333,8 +326,10 @@
        */
       rotatePoint: function(point, center, angle) {
         var p = { x: point.x, y: point.y };
-        point.x = Math.cos(angle) * (p.x - center.x) - Math.sin(angle) * (p.y - center.y) + center.x;
-        point.y = Math.sin(angle) * (p.x - center.x) + Math.cos(angle) * (p.y - center.y) + center.y;
+        point.x = Math.cos(angle) * (p.x - center.x)
+                - Math.sin(angle) * (p.y - center.y) + center.x;
+        point.y = Math.sin(angle) * (p.x - center.x)
+                + Math.cos(angle) * (p.y - center.y) + center.y;
       },
 
       /**
