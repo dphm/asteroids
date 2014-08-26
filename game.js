@@ -59,17 +59,9 @@
       self.bodies.forEach(function(b1) {
         self.bodies.forEach(function(b2) {
           if (self.colliding(b1, b2)) {
-            if (b1 instanceof Ship && b2 instanceof Asteroid) {
-              /* Kills the ship. */
-              b1.die();
-            } else if (b1 instanceof Asteroid && b2 instanceof Ship) {
-              /* Kills the ship. */
-              b2.die();
-            } else {
-              /* Kills the colliding bodies. */
-              b1.die();
-              b2.die();
-            }
+            /* Kills the colliding bodies. */
+            b1.die();
+            b2.die();
           }
         });
 
