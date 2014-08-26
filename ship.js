@@ -66,7 +66,7 @@
       } else {
         // Decelerate by negative DELTA_SPEED after DECELERATION_DELAY milliseconds.
         if (this.speed > 0 && now - this.lastAccelerated >= this.DECELERATION_DELAY) {
-          this.updateSpeed(-this.DELTA_SPEED);
+          this.updateSpeed(-this.DELTA_SPEED / 4);
         }
       }
 
