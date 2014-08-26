@@ -203,7 +203,7 @@
        * Returns true if body b is an enemy of the ship.
        */
       function enemy(b) {
-        return b instanceof Asteroid ||
+        return b instanceof Steroid ||
                b instanceof Alien    ||
                b instanceof Bullet && b.creator instanceof Alien;
       }
@@ -226,9 +226,9 @@
      * Starts the current level.
      */
     startLevel: function() {
-      // Add asteroids to the list of game bodies.
+      // Add steroids to the list of game bodies.
       for (var i = 0; i < this.level; i++) {
-        this.addBody(new Asteroid(this, this.randomPoint(), 3));
+        this.addBody(new Steroid(this, this.randomPoint(), 3));
       }
 
       // Add aliens to the list of game bodies.
