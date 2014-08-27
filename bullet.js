@@ -28,7 +28,7 @@
 
       // Kill off-screen bullets.
       if (this.game.offScreen(this)) {
-        this.die();
+        this.collide();
       }
     },
 
