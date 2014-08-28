@@ -38,11 +38,6 @@
     update: function() {
       var now = Date.now();
 
-      // Shoot up to once per FIRING_LIMIT milliseconds.
-      if (this.shooting() && now - this.lastFired >= this.FIRING_LIMIT) {
-        this.shoot();
-      }
-
       // Rotate counter-clockwise by negative DELTA_ANGLE.
       if (this.turningLeft()) {
         this.updateAngle(-this.DELTA_ANGLE);
@@ -91,6 +86,11 @@
       // Move by speed and angle.
       this.game.trig.translatePoint(this.center, this.speed, this.angle);
       this.game.trig.translatePoints(this.points, this.speed, this.angle);
+
+      // Shoot up to once per FIRING_LIMIT milliseconds.
+      if (this.shooting() && now - this.lastFired >= this.FIRING_LIMIT) {
+        this.shoot();
+      }
     },
 
     /**
