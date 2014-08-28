@@ -51,19 +51,19 @@
     },
 
     /**
-     * Resets the points of the path of the bullet between time t and t+1,
+     * Resets the points of the path of the bullet between time t-1 and t,
      * relative to its center.
      */
     resetPoints: function() {
       this.points = [
-        { x: this.center.x, y: this.center.y },
-        { x: this.center.x + this.speed *  Math.cos(this.angle),
-          y: this.center.y + this.speed * -Math.sin(this.angle) }
+        { x: this.center.x - this.speed *  Math.cos(this.angle),
+          y: this.center.y - this.speed * -Math.sin(this.angle) },
+        { x: this.center.x, y: this.center.y }
       ];
     },
 
     /**
-     * Resets the line segment of the path of the bullet between time t and t+1,
+     * Resets the line segment of the path of the bullet between time t-1 and t,
      * relative to its points. Used for collision detection.
      */
     resetLineSegments: function() {

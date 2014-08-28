@@ -50,6 +50,12 @@
     update: function() {
       var self = this;
 
+      // Update each body.
+      this.bodies.forEach(function(body) {
+        body.update();
+        self.wrapScreen(body);
+      });
+
       // Check for collisions between any two bodies.
       var collidingPairs = [];
       this.pairsOfBodies().forEach(function(pair) {
@@ -63,12 +69,6 @@
         pair.forEach(function(body) {
           body.die();
         });
-      });
-
-      // Update each body.
-      this.bodies.forEach(function(body) {
-        body.update();
-        self.wrapScreen(body);
       });
 
       // Start the next level if the current level has been completed.
