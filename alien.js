@@ -22,7 +22,7 @@
   Alien.prototype = {
     /* Limit constants. */
     FIRING_LIMIT: 3000,
-    FIRING_THRESHOLD: 0.5,
+    FIRING_THRESHOLD: 0.3,
 
     /**
      * Updates the position of the alien.
@@ -35,11 +35,8 @@
       this.resetPoints();
       this.resetLineSegments();
 
-      // Shoot once per FIRING_LIMIT milliseconds
-      // with probability of FIRING_THRESHOLD.
-      var canShoot = Date.now() - this.lastShot >= this.FIRING_LIMIT;
-      var willShoot = Math.random() >= this.FIRING_THRESHOLD;
-      if (canShoot && willShoot) {
+      // Shoot periodically.
+      if (this.canShoot() && this.willShoot()) {
         this.shoot();
       }
     },
@@ -167,6 +164,21 @@
 
       // Update last occurrence of shooting.
       this.lastShot = Date.now();
+    },
+
+    /**
+     * Returns true if at least FIRING_LIMIT milliseconds
+     * have passed since the last shot.
+     */
+    canShoot: function() {
+      return Date.now() - this.lastShot >= this.FIRING_LIMIT;
+    },
+
+    /**
+     * Returns true with probability FIRING_THRESHOLD.
+     */
+    willShoot: function() {
+      return Math.random() >= this.FIRING_THRESHOLD;
     }
   };
 
