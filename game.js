@@ -131,7 +131,6 @@
     addBody: function(body) {
       if (body.isEnemy) {
         this.numberOfEnemies++;
-        console.log("Add enemy: " + this.numberOfEnemies);
       }
 
       this.bodies.push(body);
@@ -143,7 +142,6 @@
     removeBody: function(body) {
       if (body.isEnemy) {
         this.numberOfEnemies--;
-        console.log("Remove enemy: " + this.numberOfEnemies);
       }
 
       var i = this.bodies.indexOf(body);
