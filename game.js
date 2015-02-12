@@ -66,6 +66,9 @@
 
       // Kill each of the colliding bodies.
       collidingPairs.forEach(function(pair) {
+        // Bullet can only destroy one object at a time.
+        if (!!pair[0].isDead || !!pair[1].isDead) return;
+
         pair.forEach(function(body) {
           body.die();
         });

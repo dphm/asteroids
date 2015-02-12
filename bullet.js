@@ -5,6 +5,7 @@
     this.color = creator.color;
     this.created = Date.now();
     this.isEnemy = creator.isEnemy;
+    this.isDead = false;
 
     this.angle = angle;
     this.speed = 5;
@@ -47,6 +48,10 @@
      * Handles events occurring upon the destruction of the bullet.
      */
     die: function() {
+      // Ensure the bullet is removed at most once.
+      if (this.isDead) return;
+      this.isDead = true;
+
       // Remove the dead bullet from the list of game bodies.
       this.game.removeBody(this);
     },
