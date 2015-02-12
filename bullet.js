@@ -4,6 +4,7 @@
     this.game = creator.game;
     this.color = creator.color;
     this.created = Date.now();
+    this.isEnemy = creator.isEnemy;
 
     this.angle = angle;
     this.speed = 5;

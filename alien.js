@@ -2,6 +2,7 @@
   function Alien(game, size) {
     this.game = game;
     this.color = game.COLORS.YELLOW;
+    this.isEnemy = true;
 
     this.size = size;
     this.angle = game.validAngle();
@@ -14,9 +15,6 @@
 
     // Record the last occurrence of shooting.
     this.lastShot = 0;
-
-    // Increment the number of enemies in the game.
-    this.game.numberOfEnemies++;
   }
 
   Alien.prototype = {
@@ -89,9 +87,6 @@
 
       // Remove the dead asteroid from the list of game bodies.
       this.game.removeBody(this);
-
-      // Decrement the number of enemies in the game.
-      this.game.numberOfEnemies--;
     },
 
     /**

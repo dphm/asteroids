@@ -3,6 +3,7 @@
     this.game = game;
     this.color = game.COLORS.GREEN;
     this.created = Date.now();
+    this.isEnemy = false;
 
     this.angle = Math.PI / 2;
     this.speed = 0;

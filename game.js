@@ -126,6 +126,11 @@
      * Adds a body to the list of game bodies.
      */
     addBody: function(body) {
+      if (body.isEnemy) {
+        this.numberOfEnemies++;
+        console.log("Add enemy: " + this.numberOfEnemies);
+      }
+
       this.bodies.push(body);
     },
 
@@ -133,6 +138,11 @@
      * Removes a body from the list of game bodies.
      */
     removeBody: function(body) {
+      if (body.isEnemy) {
+        this.numberOfEnemies--;
+        console.log("Remove enemy: " + this.numberOfEnemies);
+      }
+
       var i = this.bodies.indexOf(body);
       this.bodies.splice(i, 1);
     },
@@ -191,25 +201,8 @@
      * Checks if two bodies are colliding.
      */
     colliding: function(b1, b2) {
-      /**
-       * Returns true if body b is a friend of the ship.
-       */
-      function friend(b) {
-        return b instanceof Ship ||
-               b instanceof Bullet && b.creator instanceof Ship;
-      }
-
-      /**
-       * Returns true if body b is an enemy of the ship.
-       */
-      function enemy(b) {
-        return b instanceof Asteroid ||
-               b instanceof Alien    ||
-               b instanceof Bullet && b.creator instanceof Alien;
-      }
-
-      var shouldCollide = friend(b1) && enemy(b2) ||
-                          friend(b2) && enemy(b1);
+      var shouldCollide = !b1.isEnemy && b2.isEnemy ||
+                          !b2.isEnemy && b1.isEnemy;
 
       if (shouldCollide) {
         var self = this;
