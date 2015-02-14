@@ -124,15 +124,6 @@
      * Handles events occurring upon the destruction of the ship.
      */
     die: function() {
-      // Decrement the number of game lives.
-      this.game.lives--;
-
-      if (this.game.lives > 0) {
-        // Create a new ship if there are lives remaining.
-        this.game.ship = new Ship(this.game);
-        this.game.addBody(this.game.ship);
-      }
-
       // Remove the dead ship from the list of game bodies.
       this.game.removeBody(this);
     },

@@ -140,7 +140,15 @@
      * Removes a body from the list of game bodies.
      */
     removeBody: function(body) {
-      if (body.isEnemy) {
+      if (body instanceof Ship) {
+        this.lives--;
+
+        // Create a new ship if there are lives remaining.
+        if (this.lives > 0) {
+          this.ship = new Ship(this);
+          this.addBody(this.ship);
+        }
+      } else if (body.isEnemy) {
         this.numberOfEnemies--;
       }
 
