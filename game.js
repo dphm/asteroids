@@ -16,14 +16,14 @@
     this.numberOfEnemies = 0;
     this.startLevel();
 
-    var self = this;
+    var _this = this;
     // Infinite game loop.
     function tick() {
       // Update game state.
-      self.update();
+      _this.update();
 
       // Draw game bodies.
-      self.draw(screen);
+      _this.draw(screen);
 
       // Add next tick to browser queue.
       requestAnimationFrame(tick);
@@ -48,18 +48,18 @@
      * Updates the state of the game.
      */
     update: function() {
-      var self = this;
+      var _this = this;
 
       // Update each body.
       this.bodies.forEach(function(body) {
         body.update();
-        self.wrapScreen(body);
+        _this.wrapScreen(body);
       });
 
       // Check for collisions between any two bodies.
       var collidingPairs = [];
       this.pairsOfOpponents().forEach(function(pair) {
-        if (self.colliding(pair[0], pair[1])) {
+        if (_this.colliding(pair[0], pair[1])) {
           collidingPairs.push(pair);
         }
       });
@@ -215,11 +215,11 @@
      * Checks if two bodies are colliding.
      */
     colliding: function(b1, b2) {
-      var self = this;
+      var _this = this;
       // Return true if some lines l1 and l2 intersect.
       return b1.lineSegments.some(function(l1) {
         return b2.lineSegments.some(function(l2) {
-          return self.trig.lineIntersection(l1, l2);
+          return _this.trig.lineIntersection(l1, l2);
         });
       });
     },
@@ -359,9 +359,9 @@
        * Performs rotatePoint on each point in points.
        */
       rotatePoints: function(points, center, angle) {
-        var self = this;
+        var _this = this;
         points.forEach(function(point) {
-          self.rotatePoint(point, center, angle);
+          _this.rotatePoint(point, center, angle);
         });
       },
 
@@ -377,9 +377,9 @@
        * Performs translatePoint on each point in points.
        */
       translatePoints: function(points, speed, angle) {
-        var self = this;
+        var _this = this;
         points.forEach(function(point) {
-          self.translatePoint(point, speed, angle);
+          _this.translatePoint(point, speed, angle);
         });
       },
 
