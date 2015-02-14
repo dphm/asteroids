@@ -58,7 +58,7 @@
 
       // Check for collisions between any two bodies.
       var collidingPairs = [];
-      this.pairsOfBodies().forEach(function(pair) {
+      this.pairsOfOpponents().forEach(function(pair) {
         if (self.colliding(pair[0], pair[1])) {
           collidingPairs.push(pair);
         }
@@ -149,15 +149,28 @@
     },
 
     /**
-     * Returns a list of pairs of bodies.
+     * Returns a list of pairs of bodies where
+     * one is a friend and the other is an enemy.
      */
-    pairsOfBodies: function() {
+    pairsOfOpponents: function() {
       var pairs = [];
-      for (var i = 0; i < this.bodies.length; i++) {
-        for (var j = i + 1; j < this.bodies.length; j++) {
-          pairs.push([this.bodies[i], this.bodies[j]]);
+      var friends = [];
+      var enemies = [];
+
+      this.bodies.forEach(function(body) {
+        if (body.isEnemy) {
+          enemies.push(body);
+        } else {
+          friends.push(body);
         }
-      }
+      });
+
+      friends.forEach(function(friend) {
+        enemies.forEach(function(enemy) {
+          pairs.push([friend, enemy]);
+        });
+      });
+
       return pairs;
     },
 
@@ -202,18 +215,13 @@
      * Checks if two bodies are colliding.
      */
     colliding: function(b1, b2) {
-      var shouldCollide = !b1.isEnemy && b2.isEnemy ||
-                          !b2.isEnemy && b1.isEnemy;
-
-      if (shouldCollide) {
-        var self = this;
-        // Return true if some lines l1 and l2 intersect.
-        return b1.lineSegments.some(function(l1) {
-          return b2.lineSegments.some(function(l2) {
-            return self.trig.lineIntersection(l1, l2);
-          });
+      var self = this;
+      // Return true if some lines l1 and l2 intersect.
+      return b1.lineSegments.some(function(l1) {
+        return b2.lineSegments.some(function(l2) {
+          return self.trig.lineIntersection(l1, l2);
         });
-      }
+      });
     },
 
     /**
