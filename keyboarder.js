@@ -27,7 +27,7 @@
     };
 
     /**
-     * Returns true if the key corresponding to keyCode is being presed.
+     * Returns true if the key corresponding to keyCode is being pressed.
      */
     this.isDown = function(keyCode) {
       return keyState[keyCode];
